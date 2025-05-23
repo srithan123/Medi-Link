@@ -1,0 +1,106 @@
+/* Custom styles */
+.feature-card {
+  transition: all 0.3s ease;
+}
+
+.feature-card:hover {
+  transform: translateY(-5px);
+}
+
+#call-button, #video-call-button {
+  transition: all 0.2s ease;
+}
+
+.specialty-card {
+  transition: all 0.2s ease;
+}
+
+.specialty-card:hover {
+  transform: translateY(-3px);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .hero-text {
+    font-size: 2rem;
+  }
+}
+
+/* Custom styles */
+.feature-card {
+  transition: all 0.3s ease;
+}
+
+.feature-card:hover {
+  transform: translateY(-5px);
+}
+
+#call-button, #video-call-button, #sos-button {
+  transition: all 0.2s ease;
+}
+
+.specialty-card {
+  transition: all 0.2s ease;
+}
+
+.specialty-card:hover {
+  transform: translateY(-3px);
+}
+
+/* Animation for SOS button */
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(220, 38, 38, 0.7);
+  }
+  70% {
+    transform: scale(1.05);
+    box-shadow: 0 0 0 10px rgba(220, 38, 38, 0);
+  }
+  100% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(220, 38, 38, 0);
+  }
+}
+
+#sos-button {
+  animation: pulse 2s infinite;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .hero-text {
+    font-size: 2rem;
+  }
+  
+  /* Stack doctor cards on mobile */
+  .doctor-card {
+    flex-direction: column;
+  }
+  
+  /* Make tables scroll horizontally on mobile */
+  .responsive-table {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+}
+
+/* Map container */
+#map {
+  z-index: 0;
+}
+
+/* Loading spinner */
+.spinner {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}

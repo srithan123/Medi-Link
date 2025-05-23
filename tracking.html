@@ -1,0 +1,908 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Medicine Delivery Tracking</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 800px;
+            margin: 20px;
+        }
+        
+        .tracking-card {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+        
+        .header {
+            background-color: #4CAF50;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+        
+        .address-form {
+            padding: 20px;
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #333;
+        }
+        
+        input, textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-family: inherit;
+            font-size: 16px;
+        }
+        
+        textarea {
+            height: 80px;
+            resize: vertical;
+        }
+        
+        button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            width: 100%;
+            font-weight: bold;
+        }
+        
+        button:hover {
+            background-color: #45a049;
+        }
+        
+        #map {
+            height: 300px;
+            width: 100%;
+            display: none;
+        }
+        
+        .delivery-info {
+            padding: 20px;
+            display: none;
+        }
+        
+        .progress-container {
+            margin: 20px 0;
+        }
+        
+        .progress-steps {
+            display: flex;
+            justify-content: space-between;
+            position: relative;
+            margin-bottom: 30px;
+        }
+        
+        .progress-steps::before {
+            content: '';
+            position: absolute;
+            top: 10px;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background-color: #e0e0e0;
+            z-index: 1;
+        }
+        
+        .progress-bar {
+            position: absolute;
+            top: 10px;
+            left: 0;
+            height: 2px;
+            background-color: #4CAF50;
+            z-index: 2;
+            transition: width 0.5s ease;
+        }
+        
+        .step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            z-index: 3;
+        }
+        
+        .step-icon {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background-color: #e0e0e0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        
+        .step.active .step-icon {
+            background-color: #4CAF50;
+        }
+        
+        .step.completed .step-icon {
+            background-color: #4CAF50;
+        }
+        
+        .step-text {
+            font-size: 12px;
+            color: #757575;
+            text-align: center;
+        }
+        
+        .step.active .step-text, .step.completed .step-text {
+            color: #333;
+            font-weight: bold;
+        }
+        
+        .delivery-details {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin-top: 20px;
+        }
+        
+        .detail-card {
+            flex: 1;
+            min-width: 200px;
+            background-color: #f9f9f9;
+            padding: 15px;
+            border-radius: 8px;
+        }
+        
+        .detail-title {
+            font-size: 14px;
+            color: #757575;
+            margin-bottom: 5px;
+        }
+        
+        .detail-value {
+            font-size: 16px;
+            font-weight: bold;
+            color: #333;
+        }
+        
+        .delivery-person {
+            display: flex;
+            align-items: center;
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #f0f7ff;
+            border-radius: 8px;
+        }
+        
+        .delivery-person img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            margin-right: 15px;
+            object-fit: cover;
+        }
+        
+        .delivery-person-info {
+            flex: 1;
+        }
+        
+        .delivery-person-name {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        
+        .delivery-person-vehicle {
+            font-size: 14px;
+            color: #757575;
+        }
+        
+        .call-btn {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .timer {
+            text-align: center;
+            font-size: 18px;
+            margin: 15px 0;
+            color: #333;
+        }
+        
+        .bike-icon {
+            width: 30px;
+            height: 30px;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%234CAF50"><path d="M5 12H3l3.5-6 3.5 6H9.8l-1.1-2H6.3l-1.1 2H5zm3.8-2h1.4L12 5.67 14.8 10h1.4l-3.2-6-3.2 6zm6.2 6c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm0-2.5c-.3 0-.5.2-.5.5s.2.5.5.5.5-.2.5-.5-.2-.5-.5-.5zm-12 2.5c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm0-2.5c-.3 0-.5.2-.5.5s.2.5.5.5.5-.2.5-.5-.2-.5-.5-.5z"/></svg>');
+            background-size: contain;
+            position: absolute;
+            transform: translate(-50%, -50%);
+            z-index: 1000;
+        }
+        
+        .medicine-info {
+            background-color: #f0f7ff;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 15px;
+        }
+        
+        .medicine-title {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        
+        .medicine-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        
+        .medicine-item {
+            display: flex;
+            justify-content: space-between;
+        }
+        
+        .medicine-name {
+            font-weight: 500;
+        }
+        
+        .medicine-qty {
+            color: #757575;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="tracking-card">
+            <div class="header">
+                <h1>Medicine Delivery</h1>
+                <p id="formTitle">Enter your delivery address</p>
+            </div>
+            
+            <div class="address-form" id="addressForm">
+                <div class="form-group">
+                    <label for="fullName">Full Name</label>
+                    <input type="text" id="fullName" placeholder="Enter your full name" required>
+                </div>
+                <div class="form-group">
+                    <label for="phoneNumber">Phone Number</label>
+                    <input type="tel" id="phoneNumber" placeholder="Enter your phone number" required>
+                </div>
+                <div class="form-group">
+                    <label for="deliveryAddress">Delivery Address</label>
+                    <textarea id="deliveryAddress" placeholder="Enter your complete address with landmarks" required></textarea>
+                </div>
+
+
+
+
+
+        <style>
+        
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 20px;
+        }
+        
+        .preview-container {
+            border: 2px dashed #ccc;
+            border-radius: 8px;
+            height: 300px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 20px;
+            margin-right: 30px;
+            overflow: hidden;
+            position: relative;
+            background-color: #f9f9f9;
+        }
+        
+        .preview-container img, .preview-container video {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+        
+        .btn-container {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+            margin-right: 30px; 
+        }
+        
+        button {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 5px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        
+        .upload-btn {
+            background-color: #4CAF50;
+            color: white;
+        }
+        
+        .camera-btn {
+            background-color: #2196F3;
+            color: white;
+        }
+        
+        .capture-btn {
+            background-color: #f44336;
+            color: white;
+        }
+        
+        .cancel-btn {
+            background-color: #9E9E9E;
+            color: white;
+        }
+        
+        button:hover {
+            opacity: 0.9;
+        }
+        
+        button:disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
+        }
+        
+        .error {
+            color: #f44336;
+            text-align: center;
+            margin-bottom: 15px;
+            font-size: 14px;
+        }
+        
+        .remove-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: rgba(0, 0, 0, 0.5);
+            color: white;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            border: none;
+        }
+        
+        .icon {
+            width: 20px;
+            height: 20px;
+        }
+    </style>
+            <div class="container">
+        <h1>Upload or Take the Photo of Prescription</h1>
+        
+        <div class="preview-container" id="previewContainer">
+            <p id="placeholderText">No image selected</p>
+            <img id="imagePreview" style="display: none;">
+            <video id="videoPreview" autoplay playsinline style="display: none;"></video>
+            <button class="remove-btn" id="removeBtn" style="display: none;">×</button>
+        </div>
+        
+        <p class="error" id="errorText"></p>
+        
+        <div class="btn-container">
+            <button class="upload-btn" id="uploadBtn">
+                <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                    <polyline points="17 8 12 3 7 8"></polyline>
+                    <line x1="12" y1="3" x2="12" y2="15"></line>
+                </svg>
+                Upload
+            </button>
+            <button class="camera-btn" id="cameraBtn">
+                <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path>
+                    <circle cx="12" cy="13" r="4"></circle>
+                </svg>
+                Camera
+            </button>
+        </div>
+        
+        <div class="btn-container" id="cameraControls" style="display: none;">
+            <button class="capture-btn" id="captureBtn">
+                <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <circle cx="12" cy="12" r="10"></circle>
+                </svg>
+                Capture
+            </button>
+            <button class="cancel-btn" id="cancelBtn">
+                <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+                Cancel
+            </button>
+        </div>
+        
+        <input type="file" id="fileInput" accept="image/*" style="display: none;" required>
+    </div>
+
+    <script>
+        // DOM elements
+        const fileInput = document.getElementById('fileInput');
+        const uploadBtn = document.getElementById('uploadBtn');
+        const cameraBtn = document.getElementById('cameraBtn');
+        const captureBtn = document.getElementById('captureBtn');
+        const cancelBtn = document.getElementById('cancelBtn');
+        const previewContainer = document.getElementById('previewContainer');
+        const imagePreview = document.getElementById('imagePreview');
+        const videoPreview = document.getElementById('videoPreview');
+        const placeholderText = document.getElementById('placeholderText');
+        const removeBtn = document.getElementById('removeBtn');
+        const errorText = document.getElementById('errorText');
+        const cameraControls = document.getElementById('cameraControls');
+        
+        let stream = null;
+        
+        // Event listeners
+        uploadBtn.addEventListener('click', () => fileInput.click());
+        cameraBtn.addEventListener('click', startCamera);
+        captureBtn.addEventListener('click', takePicture);
+        cancelBtn.addEventListener('click', stopCamera);
+        removeBtn.addEventListener('click', removeImage);
+        fileInput.addEventListener('change', handleFileUpload);
+        
+        // Handle file upload
+        function handleFileUpload(event) {
+            const file = event.target.files[0];
+            
+            if (!file) return;
+            
+            // Validate file type
+            if (!file.type.match('image.*')) {
+                showError('Please select an image file (JPEG, PNG)');
+                return;
+            }
+            
+            // Validate file size (5MB max)
+            if (file.size > 5 * 1024 * 1024) {
+                showError('File size too large (max 5MB)');
+                return;
+            }
+            
+            const reader = new FileReader();
+            
+            reader.onload = function(e) {
+                hideError();
+                showImagePreview(e.target.result);
+            };
+            
+            reader.readAsDataURL(file);
+        }
+        
+        // Start camera
+        async function startCamera() {
+            try {
+                stream = await navigator.mediaDevices.getUserMedia({
+                    video: { facingMode: 'environment' }, // Use rear camera
+                    audio: false
+                });
+                
+                hideError();
+                showCameraPreview();
+                
+                // Switch button visibility
+                document.querySelector('.btn-container').style.display = 'none';
+                cameraControls.style.display = 'flex';
+                
+            } catch (err) {
+                showError('Could not access camera. Please check permissions.');
+                console.error('Camera error:', err);
+            }
+        }
+        
+        // Stop camera
+        function stopCamera() {
+            if (stream) {
+                stream.getTracks().forEach(track => track.stop());
+                stream = null;
+            }
+            
+            // Hide video preview
+            videoPreview.style.display = 'none';
+            videoPreview.srcObject = null;
+            
+            // Show placeholder
+            placeholderText.style.display = 'block';
+            
+            // Switch button visibility
+            document.querySelector('.btn-container').style.display = 'flex';
+            cameraControls.style.display = 'none';
+        }
+        
+        // Take picture from camera
+        function takePicture() {
+            if (!stream) return;
+            
+            const canvas = document.createElement('canvas');
+            canvas.width = videoPreview.videoWidth;
+            canvas.height = videoPreview.videoHeight;
+            const ctx = canvas.getContext('2d');
+            
+            if (ctx) {
+                ctx.drawImage(videoPreview, 0, 0, canvas.width, canvas.height);
+                showImagePreview(canvas.toDataURL('image/jpeg'));
+                stopCamera();
+            }
+        }
+        
+        // Show image preview
+        function showImagePreview(imageSrc) {
+            imagePreview.src = imageSrc;
+            imagePreview.style.display = 'block';
+            videoPreview.style.display = 'none';
+            placeholderText.style.display = 'none';
+            removeBtn.style.display = 'block';
+        }
+        
+        // Show camera preview
+        function showCameraPreview() {
+            videoPreview.srcObject = stream;
+            videoPreview.style.display = 'block';
+            imagePreview.style.display = 'none';
+            placeholderText.style.display = 'none';
+            removeBtn.style.display = 'none';
+        }
+        
+        // Remove image
+        function removeImage() {
+            imagePreview.src = '';
+            imagePreview.style.display = 'none';
+            placeholderText.style.display = 'block';
+            removeBtn.style.display = 'none';
+            fileInput.value = '';
+        }
+        
+        // Show error message
+        function showError(message) {
+            errorText.textContent = message;
+        }
+        
+        // Hide error message
+        function hideError() {
+            errorText.textContent = '';
+        }
+    </script>
+
+
+
+
+
+
+
+                <button id="submitAddress">Track Delivery</button>
+            </div>
+            
+            <div id="map"></div>
+            
+            <div class="delivery-info" id="deliveryInfo">
+                <div class="timer" id="timer">Estimated delivery: 15:00</div>
+                
+                <div class="progress-container">
+                    <div class="progress-steps">
+                        <div class="progress-bar" id="progressBar"></div>
+                        <div class="step completed" id="step1">
+                            <div class="step-icon">1</div>
+                            <div class="step-text">Order Received</div>
+                        </div>
+                        <div class="step completed" id="step2">
+                            <div class="step-icon">2</div>
+                            <div class="step-text">Medicine Packed</div>
+                        </div>
+                        <div class="step active" id="step3">
+                            <div class="step-icon">3</div>
+                            <div class="step-text">On the Way</div>
+                        </div>
+                        <div class="step" id="step4">
+                            <div class="step-icon">4</div>
+                            <div class="step-text">Delivered</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="medicine-info">
+                    <div class="medicine-title">Your Medicines</div>
+                    <div class="medicine-list">
+                        <div class="medicine-item">
+                            <span class="medicine-name">Paracetamol 500mg</span>
+                            <span class="medicine-qty">10 tablets</span>
+                        </div>
+                        <div class="medicine-item">
+                            <span class="medicine-name">Vitamin C</span>
+                            <span class="medicine-qty">1 bottle</span>
+                        </div>
+                        <div class="medicine-item">
+                            <span class="medicine-name">Antacid Syrup</span>
+                            <span class="medicine-qty">200ml</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="delivery-details">
+                    <div class="detail-card">
+                        <div class="detail-title">Order Number</div>
+                        <div class="detail-value">#MED-2023-78945</div>
+                    </div>
+                    <div class="detail-card">
+                        <div class="detail-title">Estimated Delivery</div>
+                        <div class="detail-value" id="deliveryTime">3:15 PM</div>
+                    </div>
+                    <div class="detail-card">
+                        <div class="detail-title">Delivery Address</div>
+                        <div class="detail-value" id="displayAddress">123 Main St</div>
+                    </div>
+                </div>
+                
+                <div class="delivery-person">
+                    <img src="https://randomuser.me/api/portraits/men/42.jpg" alt="Delivery Person">
+                    <div class="delivery-person-info">
+                        <div class="delivery-person-name">Amit Sharma</div>
+                        <div class="delivery-person-vehicle">Bike • DL 8C XY 5678</div>
+                    </div>
+                    <button class="call-btn">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+                        </svg>
+                        Call
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script>
+        // DOM elements
+        const addressForm = document.getElementById('addressForm');
+        const deliveryInfo = document.getElementById('deliveryInfo');
+        const mapElement = document.getElementById('map');
+        const submitBtn = document.getElementById('submitAddress');
+        const displayAddress = document.getElementById('displayAddress');
+        const formTitle = document.getElementById('formTitle');
+        
+        // Initialize variables
+        let map, bikeMarker;
+        let timerInterval, movementInterval;
+        let elapsed = 0;
+        const totalDuration = 10 * 60; // 10 minutes in seconds
+        
+        // Form submission
+        submitBtn.addEventListener('click', function() {
+            const fullName = document.getElementById('fullName').value;
+            const phoneNumber = document.getElementById('phoneNumber').value;
+            const deliveryAddress = document.getElementById('deliveryAddress').value;
+            
+            if (!fullName || !phoneNumber || !deliveryAddress) {
+                alert('Please fill in all fields');
+                return;
+            }
+            
+            // Hide form and show tracking info
+            addressForm.style.display = 'none';
+            deliveryInfo.style.display = 'block';
+            mapElement.style.display = 'block';
+            formTitle.textContent = 'Your Medicine Delivery';
+            
+            // Display the address
+            displayAddress.textContent = deliveryAddress;
+            
+            // Initialize map and start tracking
+            initMap();
+            startTracking();
+        });
+        
+        // Initialize map
+        function initMap() {
+            map = L.map('map').setView([28.6139, 77.2090], 15); // Default to Delhi coordinates
+            
+            // Add tile layer (OpenStreetMap)
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            }).addTo(map);
+            
+            // Generate a random route near the center point
+            const centerLat = 28.6139;
+            const centerLng = 77.2090;
+            const route = generateRandomRoute(centerLat, centerLng, 0.01); // 0.01 degree variation
+            
+            // Draw the route on map
+            L.polyline(route, {color: '#4CAF50'}).addTo(map);
+            
+            // Add pharmacy and delivery markers
+            L.marker(route[0]).addTo(map)
+                .bindPopup("GreenCross Pharmacy")
+                .openPopup();
+                
+            L.marker(route[route.length-1]).addTo(map)
+                .bindPopup("Your Location");
+            
+            // Add bike icon
+            const bikeIcon = L.divIcon({
+                className: 'bike-icon',
+                iconSize: [30, 30]
+            });
+            
+            bikeMarker = L.marker(route[0], {icon: bikeIcon}).addTo(map);
+        }
+        
+        // Generate a random delivery route
+        function generateRandomRoute(centerLat, centerLng, variation) {
+            const route = [];
+            const steps = 10;
+            
+            // Start at pharmacy location (slightly randomized)
+            route.push([
+                centerLat + (Math.random() * variation * 2 - variation),
+                centerLng + (Math.random() * variation * 2 - variation)
+            ]);
+            
+            // Generate random path to destination
+            for (let i = 1; i < steps; i++) {
+                route.push([
+                    route[i-1][0] + (Math.random() * variation * 2 - variation) * 0.5,
+                    route[i-1][1] + (Math.random() * variation * 2 - variation)
+                ]);
+            }
+            
+            // End at delivery location (slightly randomized)
+            route.push([
+                centerLat + (Math.random() * variation * 2 - variation) * 1.5,
+                centerLng + (Math.random() * variation * 2 - variation) * 1.5
+            ]);
+            
+            return route;
+        }
+        
+        // Start the delivery tracking
+        function startTracking() {
+            // Generate a random route each time
+            const centerLat = 28.6139;
+            const centerLng = 77.2090;
+            const route = generateRandomRoute(centerLat, centerLng, 0.01);
+            
+            // Clear any existing intervals
+            if (timerInterval) clearInterval(timerInterval);
+            if (movementInterval) clearInterval(movementInterval);
+            
+            elapsed = 0;
+            const timerElement = document.getElementById('timer');
+            const deliveryTimeElement = document.getElementById('deliveryTime');
+            const progressBar = document.getElementById('progressBar');
+            
+            // Format time
+            function formatTime(seconds) {
+                const mins = Math.floor(seconds / 60);
+                const secs = seconds % 60;
+                return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+            }
+            
+            // Update delivery time estimation
+            function updateDeliveryTime() {
+                const now = new Date();
+                const deliveryTime = new Date(now.getTime() + (totalDuration - elapsed) * 1000);
+                
+                const hours = deliveryTime.getHours();
+                const minutes = deliveryTime.getMinutes();
+                const ampm = hours >= 12 ? 'PM' : 'AM';
+                const formattedHours = hours % 12 || 12;
+                
+                deliveryTimeElement.textContent = `${formattedHours}:${minutes.toString().padStart(2, '0')} ${ampm}`;
+            }
+            
+            // Move bike along route
+            function moveBike() {
+                const progress = elapsed / totalDuration;
+                const routeProgress = Math.min(progress * (route.length - 1), route.length - 1);
+                
+                const prevIndex = Math.floor(routeProgress);
+                const nextIndex = Math.ceil(routeProgress);
+                const fraction = routeProgress - prevIndex;
+                
+                if (prevIndex === nextIndex) {
+                    bikeMarker.setLatLng(route[prevIndex]);
+                } else {
+                    const prevPoint = route[prevIndex];
+                    const nextPoint = route[nextIndex];
+                    const lat = prevPoint[0] + (nextPoint[0] - prevPoint[0]) * fraction;
+                    const lng = prevPoint[1] + (nextPoint[1] - prevPoint[1]) * fraction;
+                    bikeMarker.setLatLng([lat, lng]);
+                }
+                
+                // Update progress bar
+                progressBar.style.width = `${Math.min(progress * 100, 100)}%`;
+                
+                // Update steps
+                if (progress > 0.75) {
+                    document.getElementById('step3').classList.remove('active');
+                    document.getElementById('step3').classList.add('completed');
+                    document.getElementById('step4').classList.add('active');
+                } else if (progress > 0.5) {
+                    document.getElementById('step2').classList.remove('active');
+                    document.getElementById('step2').classList.add('completed');
+                    document.getElementById('step3').classList.add('active');
+                }
+                
+                // Center map on bike
+                map.panTo(bikeMarker.getLatLng());
+            }
+            
+            // Update timer
+            function updateTimer() {
+                elapsed++;
+                const remaining = totalDuration - elapsed;
+                
+                if (remaining <= 0) {
+                    timerElement.textContent = "Your medicine has arrived!";
+                    clearInterval(timerInterval);
+                    clearInterval(movementInterval);
+                    return;
+                }
+                
+                timerElement.textContent = `Estimated delivery: ${formatTime(remaining)}`;
+                updateDeliveryTime();
+                moveBike();
+            }
+            
+            // Initialize
+            updateDeliveryTime();
+            
+            // Start timers
+            timerInterval = setInterval(updateTimer, 1000);
+            movementInterval = setInterval(moveBike, 100);
+            
+            // Simulate faster movement (for demo purposes)
+            setTimeout(() => {
+                elapsed = totalDuration * 0.2; // Jump to 20% completion
+            }, 1000);
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Doctor Map | Medi-Link</title>
+  <link rel="icon" href="images/iconimage.png">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/lucide@0.7.1/lucide.min.css" rel="stylesheet">
+  <link href="styles.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+</head>
+<body class="bg-gradient-to-br from-blue-50 to-blue-100 min-h-screen">
+  <header class="bg-blue-600 text-white shadow-lg">
+    <div class="container mx-auto px-4 py-6 flex justify-between items-center">
+      <h1 class="text-3xl font-bold"><i class="fa fa-heartbeat" style="font-size:36px;"></i> Medi-Link</h1>
+      <nav class="hidden md:block">
+        <ul class="flex space-x-6">
+          <li><a href="index.html" class="hover:underline">Home</a></li>
+          <li><a href="doctors.html" class="hover:underline">Doctors</a></li>
+          <li><a href="reminders.html" class="hover:underline">Reminders</a></li>
+          <li><a href="map.html" class="hover:underline font-medium">Doctor Map</a></li>
+          <li><a href="emergency.html" class="hover:underline">Emergency</a></li>
+          <li><a href="medicine-bank.html" class="hover:underline">Medicine-Bank</a></li>
+          <li><a href="ngo.html" class="hover:underline">NGO's</a></li>
+          <li><a href="drone.html" class="hover:underline">Drone Delivery</a></li>
+        </ul>
+      </nav>
+      <button id="mobile-menu-button" class="md:hidden">
+        <i data-lucide="menu" class="h-6 w-6"></i>
+      </button>
+    </div>
+    <div id="mobile-menu" class="md:hidden hidden bg-blue-700 px-4 py-2">
+      <ul class="space-y-2">
+        <li><a href="index.html" class="block hover:bg-blue-600 px-2 py-1 rounded">Home</a></li>
+        <li><a href="doctors.html" class="block hover:bg-blue-600 px-2 py-1 rounded">Doctors</a></li>
+        <li><a href="reminders.html" class="block hover:bg-blue-600 px-2 py-1 rounded">Reminders</a></li>
+        <li><a href="map.html" class="block hover:bg-blue-600 px-2 py-1 rounded">Doctor Map</a></li>
+        <li><a href="emergency.html" class="block hover:bg-blue-600 px-2 py-1 rounded">Emergency</a></li>
+      </ul>
+    </div>
+  </header>
+
+  <main class="container mx-auto px-4 py-8">
+    <div class="max-w-6xl mx-auto">
+      <div class="flex items-center mb-6">
+        <a href="index.html" class="text-blue-600 hover:underline flex items-center">
+          <i data-lucide="arrow-left" class="h-4 w-4 mr-1"></i> Back to Home
+        </a>
+      </div>
+      
+      <h2 class="text-3xl font-bold text-blue-800 mb-6">Doctor Availability Map</h2>
+      
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <div class="lg:col-span-2">
+          <div class="bg-white rounded-xl shadow-lg p-4 h-full">
+            <div id="map" class="h-96 rounded-lg"></div>
+            <div class="mt-4 flex justify-between items-center">
+              <div class="text-sm text-gray-600">
+                <i data-lucide="info" class="h-4 w-4 inline mr-1"></i>
+                Tap on a doctor to see details
+              </div>
+              <button id="locate-me" class="text-blue-600 hover:text-blue-800 text-sm font-medium">
+                <i data-lucide="locate" class="h-4 w-4 inline mr-1"></i> Locate Me
+              </button>
+            </div>
+          </div>
+        </div>
+        
+        <div>
+          <div class="bg-white rounded-xl shadow-lg p-6 h-full">
+            <h3 class="text-xl font-bold mb-4">Doctor Details</h3>
+            <div id="doctor-details" class="text-center py-8 text-gray-500">
+              <i data-lucide="user" class="h-8 w-8 mx-auto mb-2"></i>
+              <p>Select a doctor from the map</p>
+            </div>
+            
+            <div id="selected-doctor" class="hidden">
+              <div class="flex items-center mb-4">
+                <div class="bg-blue-100 rounded-full h-12 w-12 flex items-center justify-center mr-3">
+                  <i data-lucide="user" class="h-6 w-6 text-blue-600"></i>
+                </div>
+                <div>
+                  <h4 id="doctor-name" class="font-bold"></h4>
+                  <p id="doctor-specialty" class="text-sm text-gray-600"></p>
+                </div>
+              </div>
+              
+              <div class="space-y-3 mb-6">
+                <div class="flex items-center">
+                  <i data-lucide="clock" class="h-4 w-4 text-gray-500 mr-2"></i>
+                  <span id="doctor-availability" class="text-sm"></span>
+                </div>
+                <div class="flex items-center">
+                  <i data-lucide="map-pin" class="h-4 w-4 text-gray-500 mr-2"></i>
+                  <span id="doctor-location" class="text-sm"></span>
+                </div>
+                <div class="flex items-center">
+                  <i data-lucide="star" class="h-4 w-4 text-gray-500 mr-2"></i>
+                  <span id="doctor-rating" class="text-sm"></span>
+                </div>
+              </div>
+              
+              <button id="connect-doctor" class="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-lg">
+                <i data-lucide="phone" class="h-4 w-4 inline mr-2"></i> Connect
+              </button>
+            </div>
+            
+            <div class="border-t border-gray-200 mt-6 pt-6">
+              <h4 class="font-bold mb-3">Prescription Delivery</h4>
+              <textarea 
+                id="prescription-details" 
+                rows="3" 
+                placeholder="Enter your prescription details..."
+                class="w-full p-3 border border-gray-300 rounded-lg mb-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              ></textarea>
+              <button id="submit-prescription" class="w-full bg-green-600 hover:bg-green-700 text-white py-2 px-4 rounded-lg">
+                <i data-lucide="truck" class="h-4 w-4 inline mr-2"></i> Request Delivery
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="mt-8">
+        <h3 class="text-xl font-bold mb-4">Available Doctors Nearby</h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" id="doctors-list">
+          <!-- Doctors will be loaded here -->
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="bg-blue-800 text-white py-8 mt-12">
+    <div class="container mx-auto px-4">
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+        <div>
+          <h3 class="text-xl font-bold mb-4">Medi-Link</h3>
+          <p>Your complete healthcare solution available 24/7.</p>
+        </div>
+        <div>
+          <h4 class="font-bold mb-4">Services</h4>
+          <ul class="space-y-2">
+            <li><a href="doctors.html" class="hover:underline">Doctor Connection</a></li>
+            <li><a href="reminders.html" class="hover:underline">Medicine Reminders</a></li>
+            <li><a href="map.html" class="hover:underline">Doctor Map</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="font-bold mb-4">Emergency</h4>
+          <ul class="space-y-2">
+            <li><a href="emergency.html" class="hover:underline">SOS</a></li>
+            <li><a href="firstaid.html" class="hover:underline">First Aid</a></li>
+            <li><a href="medicine-bank.html" class="hover:underline">Medicine Bank</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="font-bold mb-4">Contact</h4>
+          <p>Toll-free: 1800-123-4567</p>
+          <p>Email: help@healthcareconnect.com</p>
+        </div>
+      </div>
+      <div class="border-t border-blue-700 mt-8 pt-6 text-sm text-center">
+        <p>&copy; 2023 Medi-Link. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/lucide@0.7.1/lucide.min.js"></script>
+  <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+  <script src="js/script.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      lucide.createIcons();
+      
+      // Mobile menu toggle
+      const mobileMenuButton = document.getElementById('mobile-menu-button');
+      const mobileMenu = document.getElementById('mobile-menu');
+      
+      if (mobileMenuButton && mobileMenu) {
+        mobileMenuButton.addEventListener('click', function() {
+          mobileMenu.classList.toggle('hidden');
+        });
+      }
+      
+      // Initialize map
+      const map = L.map('map').setView([20.5937, 78.9629], 5); // Default to India coordinates
+      
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+      }).addTo(map);
+      
+      // Sample doctor data
+      const doctors = [
+        {
+          id: 1,
+          name: "Dr. Priya Sharma",
+          specialty: "General Physician",
+          location: "Delhi",
+          coordinates: [28.6139, 77.2090],
+          availability: "Available today 9AM-5PM",
+          rating: "4.8 (120 reviews)",
+          phone: "1800-123-4567"
+        },
+        {
+          id: 2,
+          name: "Dr. Raj Patel",
+          specialty: "Cardiologist",
+          location: "Mumbai",
+          coordinates: [19.0760, 72.8777],
+          availability: "Available tomorrow 10AM-4PM",
+          rating: "4.9 (85 reviews)",
+          phone: "1800-123-4567"
+        },
+        {
+          id: 3,
+          name: "Dr. Ananya Gupta",
+          specialty: "Pediatrician",
+          location: "Bangalore",
+          coordinates: [12.9716, 77.5946],
+          availability: "Available today 2PM-8PM",
+          rating: "4.7 (92 reviews)",
+          phone: "1800-123-4567"
+        },
+        {
+          id: 4,
+          name: "Dr. Amit Singh",
+          specialty: "Orthopedic Surgeon",
+          location: "Hyderabad",
+          coordinates: [17.3850, 78.4867],
+          availability: "Available tomorrow 8AM-12PM",
+          rating: "4.6 (76 reviews)",
+          phone: "1800-123-4567"
+        }
+      ];
+      
+      // Add doctor markers to map
+      doctors.forEach(doctor => {
+        const marker = L.marker(doctor.coordinates).addTo(map)
+          .bindPopup(`<b>${doctor.name}</b><br>${doctor.specialty}`);
+        
+        marker.on('click', function() {
+          showDoctorDetails(doctor);
+        });
+      });
+      
+      // Locate me button
+      const locateMeBtn = document.getElementById('locate-me');
+      if (locateMeBtn) {
+        locateMeBtn.addEventListener('click', function() {
+          if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(
+              position => {
+                const userLat = position.coords.latitude;
+                const userLng = position.coords.longitude;
+                map.setView([userLat, userLng], 13);
+                L.marker([userLat, userLng])
+                  .addTo(map)
+                  .bindPopup("Your location")
+                  .openPopup();
+              },
+              error => {
+                alert("Unable to get your location: " + error.message);
+              }
+            );
+          } else {
+            alert("Geolocation is not supported by your browser");
+          }
+        });
+      }
+      
+      // Show doctor details
+      function showDoctorDetails(doctor) {
+        const doctorDetails = document.getElementById('doctor-details');
+        const selectedDoctor = document.getElementById('selected-doctor');
+        
+        doctorDetails.classList.add('hidden');
+        selectedDoctor.classList.remove('hidden');
+        
+        document.getElementById('doctor-name').textContent = doctor.name;
+        document.getElementById('doctor-specialty').textContent = doctor.specialty;
+        document.getElementById('doctor-availability').textContent = doctor.availability;
+        document.getElementById('doctor-location').textContent = doctor.location;
+        document.getElementById('doctor-rating').textContent = doctor.rating;
+        
+        // Connect button
+        const connectBtn = document.getElementById('connect-doctor');
+        connectBtn.addEventListener('click', function() {
+          alert(`Connecting you to ${doctor.name} at ${doctor.phone}`);
+        });
+      }
+      
+      // Prescription submission
+      const submitPrescriptionBtn = document.getElementById('submit-prescription');
+      if (submitPrescriptionBtn) {
+        submitPrescriptionBtn.addEventListener('click', function() {
+          const prescription = document.getElementById('prescription-details').value.trim();
+          if (prescription) {
+            alert('Prescription received! Your medicines will be delivered within 2 hours.');
+            document.getElementById('prescription-details').value = '';
+          } else {
+            alert('Please enter your prescription details');
+          }
+        });
+      }
+      
+      // Load doctors list
+      const doctorsList = document.getElementById('doctors-list');
+      if (doctorsList) {
+        doctors.forEach(doctor => {
+          const doctorCard = document.createElement('div');
+          doctorCard.className = 'bg-white rounded-lg shadow p-4 hover:shadow-md transition-shadow cursor-pointer';
+          doctorCard.innerHTML = `
+            <div class="flex items-center mb-3">
+              <div class="bg-blue-100 rounded-full h-10 w-10 flex items-center justify-center mr-3">
+                <i data-lucide="user" class="h-5 w-5 text-blue-600"></i>
+              </div>
+              <div>
+                <h4 class="font-bold">${doctor.name}</h4>
+                <p class="text-sm text-gray-600">${doctor.specialty}</p>
+              </div>
+            </div>
+            <div class="flex items-center text-sm text-gray-600 mb-2">
+              <i data-lucide="map-pin" class="h-4 w-4 mr-2"></i>
+              ${doctor.location}
+            </div>
+            <div class="flex items-center text-sm text-gray-600 mb-2">
+              <i data-lucide="clock" class="h-4 w-4 mr-2"></i>
+              ${doctor.availability.split(' ').slice(0, 3).join(' ')}...
+            </div>
+            <div class="flex items-center text-sm text-gray-600">
+              <i data-lucide="star" class="h-4 w-4 mr-2 text-yellow-500"></i>
+              ${doctor.rating}
+            </div>
+          `;
+          
+          doctorCard.addEventListener('click', function() {
+            map.setView(doctor.coordinates, 13);
+            showDoctorDetails(doctor);
+          });
+          
+          doctorsList.appendChild(doctorCard);
+        });
+        
+        // Refresh icons
+        lucide.createIcons();
+      }
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Drone Delivery | Medi-Link</title>
+  <link rel="icon" href="images/iconimage.png">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/lucide@0.7.1/lucide.min.css" rel="stylesheet">
+  <link href="styles.css" rel="stylesheet">
+</head>
+<body class="bg-gradient-to-br from-blue-50 to-blue-100 min-h-screen">
+  <header class="bg-blue-600 text-white shadow-lg">
+    <div class="container mx-auto px-4 py-6 flex justify-between items-center">
+      <h1 class="text-3xl font-bold"><i class="fa fa-heartbeat" style="font-size:36px;"></i> Medi-Link</h1>
+      <nav class="hidden md:block">
+        <ul class="flex space-x-6">
+          <li><a href="index.html" class="hover:underline">Home</a></li>
+          <li><a href="doctors.html" class="hover:underline">Doctors</a></li>
+          <li><a href="reminders.html" class="hover:underline">Reminders</a></li>
+          <li><a href="map.html" class="hover:underline">Doctor Map</a></li>
+          <li><a href="emergency.html" class="hover:underline">Emergency</a></li>
+          <li><a href="medicine-bank.html" class="hover:underline">Medicine-Bank</a></li>
+          <li><a href="ngo.html" class="hover:underline">NGO's</a></li>
+          <li><a href="drone.html" class="hover:underline font-medium">Drone Delivery</a></li>
+        </ul>
+      </nav>
+      <button id="mobile-menu-button" class="md:hidden">
+        <i data-lucide="menu" class="h-6 w-6"></i>
+      </button>
+    </div>
+    <div id="mobile-menu" class="md:hidden hidden bg-blue-700 px-4 py-2">
+      <ul class="space-y-2">
+        <li><a href="index.html" class="block hover:bg-blue-600 px-2 py-1 rounded">Home</a></li>
+        <li><a href="doctors.html" class="block hover:bg-blue-600 px-2 py-1 rounded">Doctors</a></li>
+        <li><a href="reminders.html" class="block hover:bg-blue-600 px-2 py-1 rounded">Reminders</a></li>
+        <li><a href="map.html" class="block hover:bg-blue-600 px-2 py-1 rounded">Doctor Map</a></li>
+        <li><a href="emergency.html" class="block hover:bg-blue-600 px-2 py-1 rounded">Emergency</a></li>
+      </ul>
+    </div>
+  </header>
+
+  <main class="container mx-auto px-4 py-8">
+    <div class="max-w-4xl mx-auto">
+      <div class="flex items-center mb-6">
+        <a href="index.html" class="text-blue-600 hover:underline flex items-center">
+          <i data-lucide="arrow-left" class="h-4 w-4 mr-1"></i> Back to Home
+        </a>
+      </div>
+      
+      <h2 class="text-3xl font-bold text-blue-800 mb-6">Drone Medicine Delivery</h2>
+      
+      <div class="bg-white rounded-xl shadow-lg p-6 mb-8">
+        <div class="flex flex-col md:flex-row gap-6 items-center mb-6">
+          <div class="flex-1">
+            <h3 class="text-xl font-bold mb-3">Fast, Contactless Medicine Delivery</h3>
+            <p class="mb-4">
+              Our drone delivery service provides quick and safe delivery of essential medicines,
+              especially useful during COVID-19 outbreaks and in hard-to-reach areas.
+            </p>
+            <ul class="space-y-2 mb-4">
+              <li class="flex items-center">
+                <i data-lucide="check" class="h-5 w-5 text-green-500 mr-2"></i>
+                <span>Delivery in under 30 minutes</span>
+              </li>
+              <li class="flex items-center">
+                <i data-lucide="check" class="h-5 w-5 text-green-500 mr-2"></i>
+                <span>Zero contact delivery</span>
+              </li>
+              <li class="flex items-center">
+                <i data-lucide="check" class="h-5 w-5 text-green-500 mr-2"></i>
+                <span>Available 24/7 for emergencies</span>
+              </li>
+            </ul>
+          </div>
+          <div class="bg-gray-200 border-2 border-dashed rounded-xl w-full md:w-64 h-64 flex items-center justify-center">
+            <img src="images/dronedelivery.jpg" alt="drone" style="border-radius: 10%; height: 250px;">
+          </div>
+        </div>
+        
+        <div class="bg-blue-50 rounded-lg p-4 mb-6">
+          <h4 class="font-bold mb-2 flex items-center">
+            <i data-lucide="alert-triangle" class="h-5 w-5 text-blue-600 mr-2"></i>
+            Service Availability
+          </h4>
+          <p>
+            Currently available in Delhi, Mumbai, Bangalore, and Hyderabad. Expanding to more cities soon.
+          </p>
+        </div>
+      </div>
+      
+      <div class="bg-white rounded-xl shadow-lg p-6 mb-8">
+        <h3 class="text-xl font-bold mb-4">Request Delivery</h3>
+        <form class="grid gap-4">
+          <div class="grid gap-2">
+
+
+
+
+
+            <label for="delivery-prescription" class="font-medium">Prescription Details</label>
+            <textarea 
+              id="delivery-prescription" 
+              rows="3" 
+              class="p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              placeholder="List the medicines you need delivered"
+            ></textarea>
+          </div>
+          
+          <div class="grid gap-2">
+            <label for="delivery-time" class="font-medium">Preferred Delivery Time</label>
+            <select 
+              id="delivery-time" 
+              class="p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              required
+            >
+              <option value="asap">As soon as possible</option>
+              <option value="morning">Morning (8AM-12PM)</option>
+              <option value="afternoon">Afternoon (12PM-4PM)</option>
+              <option value="evening">Evening (4PM-8PM)</option>
+            </select>
+          </div>
+          
+          <div class="grid gap-2">
+            <label class="font-medium">Delivery Type</label>
+            <div class="flex flex-wrap gap-4">
+              <label class="flex items-center space-x-2">
+                <input type="radio" name="delivery-type" value="standard" class="h-4 w-4 text-blue-600" checked>
+                <span>Standard (within 2 hours)</span>
+              </label>
+              <label class="flex items-center space-x-2">
+                <input type="radio" name="delivery-type" value="express" class="h-4 w-4 text-blue-600">
+                <span>Express (within 30 minutes) - ₹100 extra</span>
+              </label>
+            </div>
+          </div>
+          
+          <button style="color: whitesmoke; background-color:rgb(30, 105, 245); padding:10px; border-radius: 10px; font-weight: 600;">
+            <a href="tracking.html" target="_blank">Request Delivery</a>
+          </button>
+          
+        </form>
+      </div>
+      
+    </div>
+  </main>
+
+  <footer class="bg-blue-800 text-white py-8 mt-12">
+    <div class="container mx-auto px-4">
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+        <div>
+          <h3 class="text-xl font-bold mb-4">Medi-Link</h3>
+          <p>Your complete healthcare solution available 24/7.</p>
+        </div>
+        <div>
+          <h4 class="font-bold mb-4">Services</h4>
+          <ul class="space-y-2">
+            <li><a href="doctors.html" class="hover:underline">Doctor Connection</a></li>
+            <li><a href="reminders.html" class="hover:underline">Medicine Reminders</a></li>
+            <li><a href="map.html" class="hover:underline">Doctor Map</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="font-bold mb-4">Emergency</h4>
+          <ul class="space-y-2">
+            <li><a href="emergency.html" class="hover:underline">SOS</a></li>
+            <li><a href="firstaid.html" class="hover:underline">First Aid</a></li>
+            <li><a href="medicine-bank.html" class="hover:underline">Medicine Bank</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="font-bold mb-4">Contact</h4>
+          <p>Toll-free: 1800-123-4567</p>
+          <p>Email: help@healthcareconnect.com</p>
+        </div>
+      </div>
+      <div class="border-t border-blue-700 mt-8 pt-6 text-sm text-center">
+        <p>&copy; 2023 Medi-Link. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/lucide@0.7.1/lucide.min.js"></script>
+  <script src="js/script.js"></script>
+</body>
+</html>

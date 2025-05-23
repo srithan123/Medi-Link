@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Medi-Link</title>
+  <link rel="icon" href="images/iconimage.png">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/lucide@0.7.1/lucide.min.css" rel="stylesheet">
+  <link href="styles.css" rel="stylesheet">
+</head>
+<body class="bg-gradient-to-br from-blue-50 to-blue-100 min-h-screen">
+  <header class="bg-blue-600 text-white shadow-lg">
+    <div class="container mx-auto px-4 py-6 flex justify-between items-center">
+      <h1 class="text-3xl font-bold"><i class="fa fa-heartbeat" style="font-size:36px;"></i> Medi-Link</h1>
+      <nav class="hidden md:block">
+        <ul class="flex space-x-6">
+          <li><a href="index.html" class="hover:underline font-medium">Home</a></li>
+          <li><a href="doctors.html" class="hover:underline">Doctors</a></li>
+          <li><a href="reminders.html" class="hover:underline">Reminders</a></li>
+          <li><a href="map.html" class="hover:underline">Doctor Map</a></li>
+          <li><a href="emergency.html" class="hover:underline">Emergency</a></li>
+          <li><a href="medicine-bank.html" class="hover:underline">Medicine-Bank</a></li>
+          <li><a href="ngo.html" class="hover:underline">NGO's</a></li>
+          <li><a href="drone.html" class="hover:underline">Drone Delivery</a></li>
+        </ul>
+      </nav>
+      <button id="mobile-menu-button" class="md:hidden">
+        <i data-lucide="menu" class="h-6 w-6"></i>
+      </button>
+    </div>
+    <div id="mobile-menu" class="md:hidden hidden bg-blue-700 px-4 py-2">
+      <ul class="space-y-2">
+        <li><a href="index.html" class="block hover:bg-blue-600 px-2 py-1 rounded">Home</a></li>
+        <li><a href="doctors.html" class="block hover:bg-blue-600 px-2 py-1 rounded">Doctors</a></li>
+        <li><a href="reminders.html" class="block hover:bg-blue-600 px-2 py-1 rounded">Reminders</a></li>
+        <li><a href="map.html" class="block hover:bg-blue-600 px-2 py-1 rounded">Doctor Map</a></li>
+        <li><a href="emergency.html" class="block hover:bg-blue-600 px-2 py-1 rounded">Emergency</a></li>
+      </ul>
+    </div>
+  </header>
+
+  <main class="container mx-auto px-4 py-8">
+    <section class="text-center mb-12">
+      <h2 class="text-4xl font-bold text-blue-800 mb-4">Your Complete Healthcare Solution</h2>
+      <p class="text-xl text-gray-700 max-w-3xl mx-auto">
+        Connecting you with doctors, medicine reminders, emergency services, and more - all in one place.
+      </p>
+    </section>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      <!-- Doctor Connection Card -->
+      <a href="doctors.html" class="feature-card bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow">
+        <div class="p-6">
+          <div class="flex items-center justify-center bg-blue-100 rounded-full h-16 w-16 mb-4 mx-auto">
+            <img src="images/doctorconnect.jpg" alt="connect-doctor" style="border-radius: 20%;">
+          </div>
+          <h3 class="text-xl font-bold text-center mb-2">Connect with Doctors</h3>
+          <p class="text-gray-600 text-center">
+            Instant access to certified doctors via toll-free number or video call.
+          </p>
+        </div>
+      </a>
+
+      <!-- Medicine Reminder Card -->
+      <a href="reminders.html" class="feature-card bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow">
+        <div class="p-6">
+          <div class="flex items-center justify-center bg-green-100 rounded-full h-16 w-16 mb-4 mx-auto">
+            <img src="images/remainder.jpg" alt="medicine-remainder" style="border-radius: 20%;">
+          </div>
+          <h3 class="text-xl font-bold text-center mb-2">Medicine Reminders</h3>
+          <p class="text-gray-600 text-center">
+            Never miss a dose with our call, SMS, and notification reminders.
+          </p>
+        </div>
+      </a>
+
+      <!-- Doctor Map Card -->
+      <a href="map.html" class="feature-card bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow">
+        <div class="p-6">
+          <div class="flex items-center justify-center bg-purple-100 rounded-full h-16 w-16 mb-4 mx-auto">
+            <img src="images/availablity.png" alt="doctor-available" style="border-radius: 20%;">
+          </div>
+          <h3 class="text-xl font-bold text-center mb-2">Doctor Availability Map</h3>
+          <p class="text-gray-600 text-center">
+            Find available doctors nearby and get prescriptions delivered.
+          </p>
+        </div>
+      </a>
+
+      <!-- Emergency SOS Card -->
+      <a href="emergency.html" class="feature-card bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow">
+        <div class="p-6">
+          <div class="flex items-center justify-center bg-red-100 rounded-full h-16 w-16 mb-4 mx-auto">
+            <img src="images/sos.avif" alt="emergencysos" style="border-radius: 20%;">
+          </div>
+          <h3 class="text-xl font-bold text-center mb-2">Emergency SOS</h3>
+          <p class="text-gray-600 text-center">
+            One-tap emergency assistance with your location shared automatically.
+          </p>
+        </div>
+      </a>
+
+      <!-- First Aid Card -->
+      <a href="firstaid.html" class="feature-card bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow">
+        <div class="p-6">
+          <div class="flex items-center justify-center bg-yellow-100 rounded-full h-16 w-16 mb-4 mx-auto">
+            <img src="images/aid.jpg" alt="firstaid" style="border-radius: 20%;">
+          </div>
+          <h3 class="text-xl font-bold text-center mb-2">First Aid Guidance</h3>
+          <p class="text-gray-600 text-center">
+            Step-by-step video instructions for common emergencies.
+          </p>
+        </div>
+      </a>
+
+      <!-- Pharmacy Card -->
+      <a href="pharmacy.html" class="feature-card bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow">
+        <div class="p-6">
+          <div class="flex items-center justify-center bg-indigo-100 rounded-full h-16 w-16 mb-4 mx-auto">
+            <img src="images/pharamacy.png" alt="Pharmacy" style="border-radius: 20%;">
+          </div>
+          <h3 class="text-xl font-bold text-center mb-2">Pharmacy Suggestions</h3>
+          <p class="text-gray-600 text-center">
+            Find cheaper branded medicines at nearby pharmacies.
+          </p>
+        </div>
+      </a>
+    </div>
+  </main>
+
+  <footer class="bg-blue-800 text-white py-8 mt-12">
+    <div class="container mx-auto px-4">
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+        <div>
+          <h3 class="text-xl font-bold mb-4">Medi-Link</h3>
+          <p>Your complete healthcare solution available 24/7.</p>
+        </div>
+        <div>
+          <h4 class="font-bold mb-4">Services</h4>
+          <ul class="space-y-2">
+            <li><a href="doctors.html" class="hover:underline">Doctor Connection</a></li>
+            <li><a href="reminders.html" class="hover:underline">Medicine Reminders</a></li>
+            <li><a href="map.html" class="hover:underline">Doctor Map</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="font-bold mb-4">Emergency</h4>
+          <ul class="space-y-2">
+            <li><a href="emergency.html" class="hover:underline">SOS</a></li>
+            <li><a href="firstaid.html" class="hover:underline">First Aid</a></li>
+            <li><a href="medicine-bank.html" class="hover:underline">Medicine Bank</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="font-bold mb-4">Contact</h4>
+          <p>Toll-free: 1800-123-4567</p>
+          <p>Email: help@medi-link.com</p>
+        </div>
+      </div>
+      <div class="border-t border-blue-700 mt-8 pt-6 text-sm text-center">
+        <p>&copy; 2025 Medi-Link. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/lucide@0.7.1/lucide.min.js"></script>
+  <script src="js/script.js"></script>
+</body>
+</html>

@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Emergency SOS | Medi-Link</title>
+  <link rel="icon" href="images/iconimage.png">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/lucide@0.7.1/lucide.min.css" rel="stylesheet">
+  <style>
+    .sos-pulse {
+      animation: pulse 1.5s infinite;
+    }
+    @keyframes pulse {
+      0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(220, 38, 38, 0.7); }
+      70% { transform: scale(1.05); box-shadow: 0 0 0 20px rgba(220, 38, 38, 0); }
+      100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(220, 38, 38, 0); }
+    }
+    .emergency-card {
+      transition: all 0.3s ease;
+    }
+    .emergency-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    }
+  </style>
+</head>
+<body class="bg-gradient-to-br from-blue-50 to-blue-100 min-h-screen">
+  <header class="bg-blue-600 text-white shadow-lg">
+    <div class="container mx-auto px-4 py-6 flex justify-between items-center">
+      <h1 class="text-3xl font-bold"><i class="fa fa-heartbeat" style="font-size:36px;"></i> Medi-Link</h1>
+      <nav class="hidden md:block">
+        <ul class="flex space-x-6">
+          <li><a href="index.html" class="hover:underline">Home</a></li>
+          <li><a href="doctors.html" class="hover:underline">Doctors</a></li>
+          <li><a href="reminders.html" class="hover:underline">Reminders</a></li>
+          <li><a href="map.html" class="hover:underline">Doctor Map</a></li>
+          <li><a href="emergency.html" class="hover:underline font-medium">Emergency</a></li>
+          <li><a href="medicine-bank.html" class="hover:underline">Medicine-Bank</a></li>
+          <li><a href="ngo.html" class="hover:underline">NGO's</a></li>
+          <li><a href="drone.html" class="hover:underline">Drone Delivery</a></li>
+        </ul>
+      </nav>
+      <button id="mobile-menu-button" class="md:hidden">
+        <i data-lucide="menu" class="h-6 w-6"></i>
+      </button>
+    </div>
+    <div id="mobile-menu" class="md:hidden hidden bg-blue-700 px-4 py-2">
+      <ul class="space-y-2">
+        <li><a href="index.html" class="block hover:bg-blue-600 px-2 py-1 rounded">Home</a></li>
+        <li><a href="doctors.html" class="block hover:bg-blue-600 px-2 py-1 rounded">Doctors</a></li>
+        <li><a href="reminders.html" class="block hover:bg-blue-600 px-2 py-1 rounded">Reminders</a></li>
+        <li><a href="map.html" class="block hover:bg-blue-600 px-2 py-1 rounded">Doctor Map</a></li>
+        <li><a href="emergency.html" class="block hover:bg-blue-600 px-2 py-1 rounded">Emergency</a></li>
+      </ul>
+    </div>
+  </header>
+
+  <main class="container mx-auto px-4 py-8">
+    <div class="max-w-4xl mx-auto">
+      <div class="flex items-center mb-6">
+        <a href="index.html" class="text-blue-600 hover:underline flex items-center">
+          <i data-lucide="arrow-left" class="h-4 w-4 mr-1"></i> Back to Home
+        </a>
+      </div>
+      
+      <h2 class="text-3xl font-bold text-blue-800 mb-6">Emergency Assistance</h2>
+      
+      <!-- Emergency SOS Section -->
+      <div class="bg-white rounded-xl shadow-lg p-6 mb-8 text-center">
+        <div class="flex justify-center mb-6">
+          <div class="bg-red-100 rounded-full h-24 w-24 flex items-center justify-center">
+            <img src="images/sos1.jpg" alt="sos" style="border-radius: 20%;">
+          </div>
+        </div>
+        
+        <h3 class="text-2xl font-bold text-red-600 mb-4">Emergency SOS</h3>
+        <p class="text-gray-700 mb-6">
+          In case of emergency, press the button below to alert emergency services and your emergency contacts.
+          Your location will be shared automatically.
+        </p>
+        
+        <button id="sos-button" class="sos-pulse bg-red-600 hover:bg-red-700 text-white py-4 px-8 rounded-full text-xl font-bold shadow-lg transform hover:scale-105 transition-transform mb-6 w-full max-w-xs">
+          <i data-lucide="alert-octagon" class="h-6 w-6 inline mr-2"></i> SOS EMERGENCY
+        </button>
+        
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+          <div class="bg-red-50 p-3 rounded-lg">
+            <div class="flex items-center justify-center">
+              <i data-lucide="shield" class="h-5 w-5 text-red-600 mr-2"></i>
+              <span class="font-medium">Police</span>
+            </div>
+            <div class="text-xl font-bold mt-1">100</div>
+          </div>
+          <div class="bg-red-50 p-3 rounded-lg">
+            <div class="flex items-center justify-center">
+              <i data-lucide="ambulance" class="h-5 w-5 text-red-600 mr-2"></i>
+              <span class="font-medium">Ambulance</span>
+            </div>
+            <div class="text-xl font-bold mt-1">102</div>
+          </div>
+          <div class="bg-red-50 p-3 rounded-lg">
+            <div class="flex items-center justify-center">
+              <i data-lucide="fire-extinguisher" class="h-5 w-5 text-red-600 mr-2"></i>
+              <span class="font-medium">Fire</span>
+            </div>
+            <div class="text-xl font-bold mt-1">101</div>
+          </div>
+        </div>
+        
+        <p class="text-sm text-gray-600">
+          <i data-lucide="info" class="h-4 w-4 inline mr-1"></i>
+          This will call emergency services and notify your emergency contacts
+        </p>
+      </div>
+      
+      <!-- Emergency Contacts Section -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+        <div class="bg-white rounded-xl shadow-lg p-6 emergency-card">
+          <h3 class="text-xl font-bold mb-4 flex items-center">
+            <i data-lucide="users" class="h-5 w-5 text-blue-500 mr-2"></i>
+            Emergency Contacts
+          </h3>
+          <div class="space-y-3 mb-4">
+            <div class="flex justify-between items-center p-3 bg-blue-50 rounded-lg">
+              <div>
+                <h4 class="font-medium">Dr. Priya Sharma</h4>
+                <p class="text-sm text-gray-600">Family Doctor</p>
+              </div>
+              <button class="call-contact text-blue-600 hover:text-blue-800 bg-white p-2 rounded-full shadow">
+                <i data-lucide="phone" class="h-5 w-5"></i>
+              </button>
+            </div>
+            <div class="flex justify-between items-center p-3 bg-blue-50 rounded-lg">
+              <div>
+                <h4 class="font-medium">Rahul Patel</h4>
+                <p class="text-sm text-gray-600">Emergency Contact</p>
+              </div>
+              <button class="call-contact text-blue-600 hover:text-blue-800 bg-white p-2 rounded-full shadow">
+                <i data-lucide="phone" class="h-5 w-5"></i>
+              </button>
+            </div>
+            <div class="flex justify-between items-center p-3 bg-blue-50 rounded-lg">
+              <div>
+                <h4 class="font-medium">Nearest Hospital</h4>
+                <p class="text-sm text-gray-600">123-456-7890</p>
+              </div>
+              <button class="call-contact text-blue-600 hover:text-blue-800 bg-white p-2 rounded-full shadow">
+                <i data-lucide="phone" class="h-5 w-5"></i>
+              </button>
+            </div>
+          </div>
+          <button class="text-blue-600 hover:underline font-medium flex items-center">
+            <i data-lucide="plus" class="h-4 w-4 mr-1"></i> Add Emergency Contact
+          </button>
+        </div>
+        
+        <!-- First Aid Quick Access -->
+        <div class="bg-white rounded-xl shadow-lg p-6 emergency-card">
+          <h3 class="text-xl font-bold mb-4 flex items-center">
+            <i data-lucide="heart-pulse" class="h-5 w-5 text-red-500 mr-2"></i>
+            First Aid Quick Access
+          </h3>
+          <div class="grid grid-cols-2 gap-3">
+            <a href="firstaid.html#cpr" class="bg-red-50 hover:bg-red-100 p-3 rounded-lg text-center">
+              <i data-lucide="heart" class="h-6 w-6 mx-auto text-red-600 mb-1"></i>
+              <span class="text-sm font-medium">CPR</span>
+            </a>
+            <a href="firstaid.html#choking" class="bg-red-50 hover:bg-red-100 p-3 rounded-lg text-center">
+              <i data-lucide="alert-circle" class="h-6 w-6 mx-auto text-red-600 mb-1"></i>
+              <span class="text-sm font-medium">Choking</span>
+            </a>
+            <a href="firstaid.html#bleeding" class="bg-red-50 hover:bg-red-100 p-3 rounded-lg text-center">
+              <i data-lucide="droplet" class="h-6 w-6 mx-auto text-red-600 mb-1"></i>
+              <span class="text-sm font-medium">Bleeding</span>
+            </a>
+            <a href="firstaid.html#burns" class="bg-red-50 hover:bg-red-100 p-3 rounded-lg text-center">
+              <i data-lucide="flame" class="h-6 w-6 mx-auto text-red-600 mb-1"></i>
+              <span class="text-sm font-medium">Burns</span>
+            </a>
+          </div>
+          <a href="firstaid.html" class="text-blue-600 hover:underline font-medium flex items-center mt-4">
+            View All First Aid Guides <i data-lucide="arrow-right" class="h-4 w-4 ml-1"></i>
+          </a>
+        </div>
+      </div>
+      
+      <!-- Emergency Instructions -->
+      <div class="bg-white rounded-xl shadow-lg p-6 mb-8">
+        <h3 class="text-xl font-bold mb-4 flex items-center">
+          <i data-lucide="alert-circle" class="h-5 w-5 text-yellow-500 mr-2"></i>
+          Emergency Instructions
+        </h3>
+        <div class="space-y-4">
+          <div class="flex items-start">
+            <div class="bg-blue-100 rounded-full h-8 w-8 flex-shrink-0 flex items-center justify-center mr-3">
+              <span class="text-blue-800 font-bold">1</span>
+            </div>
+            <div>
+              <h4 class="font-medium mb-1">Stay Calm</h4>
+              <p class="text-gray-600 text-sm">Take a deep breath and assess the situation before acting.</p>
+            </div>
+          </div>
+          <div class="flex items-start">
+            <div class="bg-blue-100 rounded-full h-8 w-8 flex-shrink-0 flex items-center justify-center mr-3">
+              <span class="text-blue-800 font-bold">2</span>
+            </div>
+            <div>
+              <h4 class="font-medium mb-1">Check for Danger</h4>
+              <p class="text-gray-600 text-sm">Ensure the area is safe for yourself and others before helping.</p>
+            </div>
+          </div>
+          <div class="flex items-start">
+            <div class="bg-blue-100 rounded-full h-8 w-8 flex-shrink-0 flex items-center justify-center mr-3">
+              <span class="text-blue-800 font-bold">3</span>
+            </div>
+            <div>
+              <h4 class="font-medium mb-1">Call for Help</h4>
+              <p class="text-gray-600 text-sm">Use the SOS button or call emergency services immediately.</p>
+            </div>
+          </div>
+          <div class="flex items-start">
+            <div class="bg-blue-100 rounded-full h-8 w-8 flex-shrink-0 flex items-center justify-center mr-3">
+              <span class="text-blue-800 font-bold">4</span>
+            </div>
+            <div>
+              <h4 class="font-medium mb-1">Provide First Aid</h4>
+              <p class="text-gray-600 text-sm">Use the guides below to provide basic care until help arrives.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Nearby Emergency Services -->
+      <div class="bg-white rounded-xl shadow-lg p-6">
+        <h3 class="text-xl font-bold mb-4 flex items-center">
+          <i data-lucide="map-pin" class="h-5 w-5 text-blue-500 mr-2"></i>
+          Nearby Emergency Services
+        </h3>
+        <div class="bg-gray-200 border-2 border-dashed rounded-xl w-full h-48 mb-4 flex items-center justify-center">
+          <p class="text-gray-500">Map of nearby hospitals and clinics</p>
+        </div>
+        <div class="space-y-3">
+          <div class="flex items-center justify-between p-3 bg-blue-50 rounded-lg">
+            <div>
+              <h4 class="font-medium">City General Hospital</h4>
+              <p class="text-sm text-gray-600">1.2 km away • 24/7 Emergency</p>
+            </div>
+            <button class="text-blue-600 hover:underline font-medium">
+              Directions
+            </button>
+          </div>
+          <div class="flex items-center justify-between p-3 bg-blue-50 rounded-lg">
+            <div>
+              <h4 class="font-medium">Central Trauma Center</h4>
+              <p class="text-sm text-gray-600">2.5 km away • Specialized Care</p>
+            </div>
+            <button class="text-blue-600 hover:underline font-medium">
+              Directions
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="bg-blue-800 text-white py-8 mt-12">
+    <div class="container mx-auto px-4">
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+        <div>
+          <h3 class="text-xl font-bold mb-4">Medi-Link</h3>
+          <p>Your complete healthcare solution available 24/7.</p>
+        </div>
+        <div>
+          <h4 class="font-bold mb-4">Services</h4>
+          <ul class="space-y-2">
+            <li><a href="doctors.html" class="hover:underline">Doctor Connection</a></li>
+            <li><a href="reminders.html" class="hover:underline">Medicine Reminders</a></li>
+            <li><a href="map.html" class="hover:underline">Doctor Map</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="font-bold mb-4">Emergency</h4>
+          <ul class="space-y-2">
+            <li><a href="emergency.html" class="hover:underline">SOS</a></li>
+            <li><a href="firstaid.html" class="hover:underline">First Aid</a></li>
+            <li><a href="medicine-bank.html" class="hover:underline">Medicine Bank</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="font-bold mb-4">Contact</h4>
+          <p>Toll-free: 1800-123-4567</p>
+          <p>Email: help@healthcareconnect.com</p>
+        </div>
+      </div>
+      <div class="border-t border-blue-700 mt-8 pt-6 text-sm text-center">
+        <p>&copy; 2023 Medi-Link. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/lucide@0.7.1/lucide.min.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      lucide.createIcons();
+      
+      // Mobile menu toggle
+      const mobileMenuButton = document.getElementById('mobile-menu-button');
+      const mobileMenu = document.getElementById('mobile-menu');
+      
+      if (mobileMenuButton && mobileMenu) {
+        mobileMenuButton.addEventListener('click', function() {
+          mobileMenu.classList.toggle('hidden');
+        });
+      }
+      
+      // SOS button functionality
+      const sosButton = document.getElementById('sos-button');
+      if (sosButton) {
+        sosButton.addEventListener('click', function() {
+          if (confirm('Are you sure you want to trigger an emergency alert? This will notify emergency services and your contacts.')) {
+            // In a real app, this would send the alert and share location
+            alert('EMERGENCY ALERT ACTIVATED:\n\n- Emergency services notified\n- Your location shared\n- Emergency contacts alerted\n\nHelp is on the way!');
+            
+            // Show emergency countdown
+            showEmergencyCountdown();
+          }
+        });
+      }
+      
+      // Call contact buttons
+      const callButtons = document.querySelectorAll('.call-contact');
+      callButtons.forEach(button => {
+        button.addEventListener('click', function() {
+          const contactName = this.closest('div').querySelector('h4').textContent;
+          alert(`Calling ${contactName}...\n(Note: This is a demo. In a real app, this would initiate a phone call.)`);
+        });
+      });
+      
+      // Show emergency countdown
+      function showEmergencyCountdown() {
+        const sosButton = document.getElementById('sos-button');
+        if (!sosButton) return;
+        
+        // Change button appearance
+        sosButton.innerHTML = '<i data-lucide="shield" class="h-6 w-6 inline mr-2"></i> HELP IS COMING';
+        sosButton.classList.remove('bg-red-600', 'hover:bg-red-700', 'sos-pulse');
+        sosButton.classList.add('bg-green-600', 'hover:bg-green-700');
+        
+        // Refresh icons
+        lucide.createIcons();
+        
+        // Show status message
+        const statusDiv = document.createElement('div');
+        statusDiv.className = 'bg-green-100 text-green-800 p-3 rounded-lg mt-4';
+        statusDiv.innerHTML = `
+          <div class="flex items-center">
+            <i data-lucide="check-circle" class="h-5 w-5 mr-2"></i>
+            <span>Emergency services notified. Stay on the line if possible.</span>
+          </div>
+        `;
+        sosButton.parentNode.insertBefore(statusDiv, sosButton.nextSibling);
+        
+        // Refresh icons again
+        setTimeout(() => lucide.createIcons(), 100);
+      }
+    });
+  </script>
+</body>
+</html>

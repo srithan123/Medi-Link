@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Connect with Doctors | Medi-Link</title>
+  <link rel="icon" href="images/iconimage.png">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/lucide@0.7.1/lucide.min.css" rel="stylesheet">
+  <link href="styles.css" rel="stylesheet">
+</head>
+<body class="bg-gradient-to-br from-blue-50 to-blue-100 min-h-screen">
+  <header class="bg-blue-600 text-white shadow-lg">
+    <div class="container mx-auto px-4 py-6 flex justify-between items-center">
+      <h1 class="text-3xl font-bold"><i class="fa fa-heartbeat" style="font-size:36px;"></i> Medi-Link</h1>
+      <nav class="hidden md:block">
+        <ul class="flex space-x-6">
+          <li><a href="index.html" class="hover:underline">Home</a></li>
+          <li><a href="doctors.html" class="hover:underline font-medium">Doctors</a></li>
+          <li><a href="reminders.html" class="hover:underline">Reminders</a></li>
+          <li><a href="map.html" class="hover:underline">Doctor Map</a></li>
+          <li><a href="emergency.html" class="hover:underline">Emergency</a></li>
+          <li><a href="medicine-bank.html" class="hover:underline">Medicine-Bank</a></li>
+          <li><a href="ngo.html" class="hover:underline">NGO's</a></li>
+          <li><a href="drone.html" class="hover:underline">Drone Delivery</a></li>
+        </ul>
+      </nav>
+      <button id="mobile-menu-button" class="md:hidden">
+        <i data-lucide="menu" class="h-6 w-6"></i>
+      </button>
+    </div>
+    <div id="mobile-menu" class="md:hidden hidden bg-blue-700 px-4 py-2">
+      <ul class="space-y-2">
+        <li><a href="index.html" class="block hover:bg-blue-600 px-2 py-1 rounded">Home</a></li>
+        <li><a href="doctors.html" class="block hover:bg-blue-600 px-2 py-1 rounded">Doctors</a></li>
+        <li><a href="reminders.html" class="block hover:bg-blue-600 px-2 py-1 rounded">Reminders</a></li>
+        <li><a href="map.html" class="block hover:bg-blue-600 px-2 py-1 rounded">Doctor Map</a></li>
+        <li><a href="emergency.html" class="block hover:bg-blue-600 px-2 py-1 rounded">Emergency</a></li>
+      </ul>
+    </div>
+  </header>
+
+  <main class="container mx-auto px-4 py-8">
+    <div class="max-w-4xl mx-auto">
+      <div class="flex items-center mb-6">
+        <a href="index.html" class="text-blue-600 hover:underline flex items-center">
+          <i data-lucide="arrow-left" class="h-4 w-4 mr-1"></i> Back to Home
+        </a>
+      </div>
+      
+      <h2 class="text-3xl font-bold text-blue-800 mb-6">Connect with Doctors</h2>
+      
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <!-- Toll-free Call -->
+        <div class="bg-white rounded-xl shadow-lg p-6">
+          <div class="flex items-center justify-center bg-blue-100 rounded-full h-16 w-16 mb-4 mx-auto">
+            <img src="images/call.png" alt="doctor-phone" style="border-radius: 20%;">
+          </div>
+          <h3 class="text-xl font-bold text-center mb-4">Toll-free Call</h3>
+          <p class="text-gray-600 text-center mb-6">
+            Speak directly with a certified doctor anytime, anywhere.
+          </p>
+          <div class="text-center">
+            <div class="text-2xl font-bold text-blue-600 mb-4">1800-123-4567</div>
+            <button id="call-button" class="bg-green-600 hover:bg-green-700 text-white py-3 px-6 rounded-full text-lg font-medium shadow-lg transform hover:scale-105 transition-transform">
+              <i data-lucide="phone" class="h-5 w-5 inline mr-2"></i> Call Now
+            </button>
+          </div>
+        </div>
+        
+        <!-- Video Consultation -->
+        <div class="bg-white rounded-xl shadow-lg p-6">
+          <div class="flex items-center justify-center bg-purple-100 rounded-full h-16 w-16 mb-4 mx-auto">
+            <img src="images/video call.jpg" alt="video-call" style="border-radius: 20%;">
+          </div>
+          <h3 class="text-xl font-bold text-center mb-4">Video Consultation</h3>
+          <p class="text-gray-600 text-center mb-6">
+            Face-to-face consultation with our doctors via secure video call.
+          </p>
+          <div class="text-center">
+            <button id="video-call-button" class="bg-purple-600 hover:bg-purple-700 text-white py-3 px-6 rounded-full text-lg font-medium shadow-lg transform hover:scale-105 transition-transform">
+              <i data-lucide="video" class="h-5 w-5 inline mr-2"></i> Start Video Call
+            </button>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Doctor Specialties -->
+      <div class="mt-12 bg-white rounded-xl shadow-lg p-6">
+        <h3 class="text-2xl font-bold text-blue-800 mb-6">Available Specialties</h3>
+        
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+          <div class="specialty-card bg-blue-50 rounded-lg p-4 text-center hover:bg-blue-100 transition-colors">
+            <i data-lucide="heart" class="h-6 w-6 text-red-500 mx-auto mb-2"></i>
+            <h4 class="font-medium">Cardiology</h4>
+          </div>
+          <div class="specialty-card bg-blue-50 rounded-lg p-4 text-center hover:bg-blue-100 transition-colors">
+            <i data-lucide="lungs" class="h-6 w-6 text-green-500 mx-auto mb-2"></i>
+            <h4 class="font-medium">Pulmonology</h4>
+          </div>
+          <div class="specialty-card bg-blue-50 rounded-lg p-4 text-center hover:bg-blue-100 transition-colors">
+            <i data-lucide="brain" class="h-6 w-6 text-indigo-500 mx-auto mb-2"></i>
+            <h4 class="font-medium">Neurology</h4>
+          </div>
+          <div class="specialty-card bg-blue-50 rounded-lg p-4 text-center hover:bg-blue-100 transition-colors">
+            <i data-lucide="bone" class="h-6 w-6 text-yellow-500 mx-auto mb-2"></i>
+            <h4 class="font-medium">Orthopedics</h4>
+          </div>
+          <div class="specialty-card bg-blue-50 rounded-lg p-4 text-center hover:bg-blue-100 transition-colors">
+            <i data-lucide="baby" class="h-6 w-6 text-pink-500 mx-auto mb-2"></i>
+            <h4 class="font-medium">Pediatrics</h4>
+          </div>
+          <div class="specialty-card bg-blue-50 rounded-lg p-4 text-center hover:bg-blue-100 transition-colors">
+            <i data-lucide="eye" class="h-6 w-6 text-blue-500 mx-auto mb-2"></i>
+            <h4 class="font-medium">Ophthalmology</h4>
+          </div>
+          <div class="specialty-card bg-blue-50 rounded-lg p-4 text-center hover:bg-blue-100 transition-colors">
+            <i data-lucide="stethoscope" class="h-6 w-6 text-gray-500 mx-auto mb-2"></i>
+            <h4 class="font-medium">General Medicine</h4>
+          </div>
+          <div class="specialty-card bg-blue-50 rounded-lg p-4 text-center hover:bg-blue-100 transition-colors">
+            <i data-lucide="test-tube" class="h-6 w-6 text-purple-500 mx-auto mb-2"></i>
+            <h4 class="font-medium">Pathology</h4>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="bg-blue-800 text-white py-8 mt-12">
+    <div class="container mx-auto px-4">
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+        <div>
+          <h3 class="text-xl font-bold mb-4">Medi-Link</h3>
+          <p>Your complete healthcare solution available 24/7.</p>
+        </div>
+        <div>
+          <h4 class="font-bold mb-4">Services</h4>
+          <ul class="space-y-2">
+            <li><a href="doctors.html" class="hover:underline">Doctor Connection</a></li>
+            <li><a href="reminders.html" class="hover:underline">Medicine Reminders</a></li>
+            <li><a href="map.html" class="hover:underline">Doctor Map</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="font-bold mb-4">Emergency</h4>
+          <ul class="space-y-2">
+            <li><a href="emergency.html" class="hover:underline">SOS</a></li>
+            <li><a href="firstaid.html" class="hover:underline">First Aid</a></li>
+            <li><a href="medicine-bank.html" class="hover:underline">Medicine Bank</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="font-bold mb-4">Contact</h4>
+          <p>Toll-free: 1800-123-4567</p>
+          <p>Email: help@healthcareconnect.com</p>
+        </div>
+      </div>
+      <div class="border-t border-blue-700 mt-8 pt-6 text-sm text-center">
+        <p>&copy; 2023 Medi-Link. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/lucide@0.7.1/lucide.min.js"></script>
+  <script src="js/script.js"></script>
+</body>
+</html>
