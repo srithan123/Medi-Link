@@ -244,3 +244,7 @@ function simulateDeliveryTracking() {
 if (window.location.pathname.includes('drone.html')) {
   document.addEventListener('DOMContentLoaded', simulateDeliveryTracking);
 }
+
+
+
+//Availble doctors in doctor tab
