@@ -1,0 +1,28 @@
+{
+  "name": "medi-link",
+  "version": "1.0.0",
+  "description": "**Medi-Link** is a dynamic, user-friendly healthcare web application developed using **HTML**, **CSS**, and **JavaScript**. The platform is dedicated to supporting the poor and underprivileged by providing essential health services, real-time doctor assistance, and affordable medicine delivery through a smart and intuitive interface.",
+  "main": "script.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/srithan123/Medi-Link.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/srithan123/Medi-Link/issues"
+  },
+  "homepage": "https://github.com/srithan123/Medi-Link#readme",
+  "dependencies": {
+    "bcrypt": "^6.0.0",
+    "cors": "^2.8.6",
+    "express": "^5.2.1",
+    "sqlite3": "^6.0.1"
+  }
+}

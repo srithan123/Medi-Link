@@ -504,7 +504,7 @@
                     <ul class="nav-links">
                         <li><a href="index.html">Home</a></li>
                         <li><a href="#about">About</a></li>
-                        <li><a href="#">Contact</a></li>
+                        <li><a href="#about">Contact</a></li>
                     </ul>
                     <button class="btn" id="loginBtn">Login/Signup</button>
                 </nav>
@@ -614,7 +614,7 @@
                 </div>
                 <div class="form-group">
                     <label for="phone">Phone Number</label>
-                    <input type="tel" id="phone" placeholder="Enter your phone number" required>
+                    <input type="tel" id="phone" placeholder="Enter your phone number" maxlength="10" required>
                 </div>
                 <div class="form-group">
                     <label for="age">Age</label>
@@ -714,77 +714,7 @@
 
     <script>
         // Database Simulation (SQLite would be on server in real implementation)
-        const HealthcareDB = {
-            users: [
-                {
-                    id: 1,
-                    name: "John Doe",
-                    email: "john@example.com",
-                    phone: "1234567890",
-                    age: 35,
-                    gender: "male",
-                    password: "SecurePass123" // In real app, store hashed passwords
-                },
-                {
-                    id: 2,
-                    name: "Jane Smith",
-                    email: "jane@example.com",
-                    phone: "9876543210",
-                    age: 28,
-                    gender: "female",
-                    password: "HealthCare456"
-                },
-                {
-                    id:3,
-                    name: "Srithan",
-                    email:"srithan@gmail.com",
-                    phone: "8712115473",
-                    age: 20,
-                    gender: "male",
-                    password: "12345678"
-                }
-            ],
-            appointments: [
-                { id: 1, userId: 1, date: "2023-07-15", time: "10:00 AM", doctor: "Dr. Smith", reason: "Annual Checkup" },
-                { id: 2, userId: 1, date: "2023-07-20", time: "02:30 PM", doctor: "Dr. Johnson", reason: "Follow-up" },
-                { id: 3, userId: 2, date: "2023-07-16", time: "11:15 AM", doctor: "Dr. Williams", reason: "Consultation" }
-            ],
-            prescriptions: [
-                { id: 1, userId: 1, medication: "Ibuprofen", dosage: "200mg", refills: 2, date: "2023-06-10" },
-                { id: 2, userId: 2, medication: "Amoxicillin", dosage: "500mg", refills: 1, date: "2023-07-05" }
-            ],
-            healthData: [
-                { userId: 1, type: "blood_pressure", value: "120/80", date: "2023-07-10" },
-                { userId: 1, type: "weight", value: "175 lbs", date: "2023-07-10" },
-                { userId: 2, type: "blood_pressure", value: "118/76", date: "2023-07-12" }
-            ],
-            
-            // Database methods
-            getUserByEmail: function(email) {
-                return this.users.find(user => user.email === email);
-            },
-            
-            createUser: function(userData) {
-                const newUser = {
-                    id: this.users.length + 1,
-                    ...userData
-                };
-                this.users.push(newUser);
-                return newUser;
-            },
-            
-            getUserAppointments: function(userId) {
-                return this.appointments.filter(appt => appt.userId === userId);
-            },
-            
-            getUserPrescriptions: function(userId) {
-                return this.prescriptions.filter(pres => pres.userId === userId);
-            },
-            
-            getUserHealthData: function(userId) {
-                return this.healthData.filter(data => data.userId === userId);
-            }
-        };
+        
 
         // DOM Elements
         const landingPage = document.getElementById('landingPage');
@@ -857,84 +787,146 @@
         });
 
         // Login form submission
-        loginForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-            const email = document.getElementById('loginEmail').value;
-            const password = document.getElementById('loginPassword').value;
-            
-            // Find user in database
-            const user = HealthcareDB.getUserByEmail(email);
-            
-            if (user && user.password === password) {
-                // Successful login
-                currentUser = user;
-                localStorage.setItem('healthcareUser', JSON.stringify(user));
-                loginModal.style.display = 'none';
-                loginForm.reset();
-                window.location.href = "login.html";
-                showDashboard();
-            } else {
-                alert('Invalid email or password. Please try again.');
-            }
+        loginForm.addEventListener("submit", async (e) => {
+
+    e.preventDefault();
+
+    const email =
+        document.getElementById("loginEmail").value;
+
+    const password =
+        document.getElementById("loginPassword").value;
+
+    try {
+
+        const response = await fetch("/login", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                email,
+                password
+            })
         });
 
-        // Signup form submission
-        signupForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            // Validate passwords match
-            const password = document.getElementById('password').value;
-            const confirmPassword = document.getElementById('confirmPassword').value;
-            
-            if (password !== confirmPassword) {
-                alert('Passwords do not match!');
-                return;
-            }
-            
-            // Check if email already exists
-            const email = document.getElementById('email').value;
-            if (HealthcareDB.getUserByEmail(email)) {
-                alert('An account with this email already exists. Please login.');
-                return;
-            }
-            
-            // Create new user
-            const newUser = {
-                name: document.getElementById('fullName').value,
-                email: email,
-                phone: document.getElementById('phone').value,
-                age: document.getElementById('age').value,
-                gender: document.getElementById('gender').value,
-                password: password // In real app, hash this password
-            };
-            
-            // Add to database
-            const createdUser = HealthcareDB.createUser(newUser);
-            currentUser = createdUser;
-            localStorage.setItem('healthcareUser', JSON.stringify(createdUser));
-            
-            // Show dashboard
-            signupModal.style.display = 'none';
-            signupForm.reset();
+        const result = await response.json();
+
+        if (result.success) {
+
+            localStorage.setItem(
+                "healthcareUser",
+                JSON.stringify(result.user)
+            );
+
+            currentUser = result.user;
+
+            // Close Login Popup
+            loginModal.style.display = "none";
+
+            // Clear Form
+            loginForm.reset();
+
+            // Show Dashboard
             showDashboard();
-            
-            alert('Account created successfully! You are now logged in.');
-        });
+
+        } else {
+
+            alert(result.message);
+        }
+
+    } catch (error) {
+
+        console.error("Login Error:", error);
+
+        alert("Login Successfull!!.");
+    }
+});
+
+
+
+
+
+
+
+        // Signup form submission
+        signupForm.addEventListener("submit", async (e) => {
+
+    e.preventDefault();
+
+    const password =
+        document.getElementById("password").value;
+
+    const confirmPassword =
+        document.getElementById("confirmPassword").value;
+
+    if(password !== confirmPassword){
+        alert("Passwords do not match");
+        return;
+    }
+
+    const response = await fetch("/signup",{
+
+        method:"POST",
+
+        headers:{
+            "Content-Type":"application/json"
+        },
+
+        body:JSON.stringify({
+
+            name:
+            document.getElementById("fullName").value,
+
+            email:
+            document.getElementById("email").value,
+
+            phone:
+            document.getElementById("phone").value,
+
+            age:
+            document.getElementById("age").value,
+
+            gender:
+            document.getElementById("gender").value,
+
+            password:password
+        })
+    });
+
+    const result = await response.json();
+
+    if(result.success){
+
+        alert("Registration Successful");
+
+        signupModal.style.display = "none";
+
+        signupForm.reset();
+
+    }else{
+
+        alert(result.message);
+    }
+});
 
         // Show dashboard
         function showDashboard() {
-            // Hide landing page
-            landingPage.style.display = 'none';
-            
-            // Show dashboard
-            dashboard.style.display = 'block';
-            
-            // Update user info
-            userGreeting.textContent = currentUser.name.split(' ')[0];
-            
-            // Load user data
-            loadDashboardData();
-        }
+
+    loginModal.style.display = "none";
+    signupModal.style.display = "none";
+
+    landingPage.style.display = "none";
+
+    dashboard.style.display = "block";
+
+    if(currentUser){
+        userGreeting.textContent =
+            currentUser.name.split(" ")[0];
+    }
+
+    loadDashboardData();
+}
 
         // Load dashboard data
         function loadDashboardData() {
