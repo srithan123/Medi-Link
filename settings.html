@@ -1,0 +1,1069 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="images/iconimage.png">
+    <title>MediLink Pro - Patient Settings</title>
+
+    <!-- Link CSS Here -->
+    <link rel="stylesheet" href="settings.css">
+
+<style>
+/* ========================= */
+/* GENERAL */
+/* ========================= */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Segoe UI', sans-serif;
+}
+
+body{
+    background:#f4f7fc;
+    padding:20px;
+}
+
+.container{
+    max-width:1300px;
+    margin:auto;
+}
+
+h1{
+    text-align:center;
+    margin-bottom:25px;
+    color:#1e3a8a;
+}
+
+/* ========================= */
+/* CARD */
+/* ========================= */
+
+.card{
+    background:white;
+    margin-bottom:25px;
+    padding:25px;
+    border-radius:15px;
+    box-shadow:0 4px 15px rgba(0,0,0,0.08);
+}
+
+.card h2{
+    margin-bottom:20px;
+    color:#2563eb;
+}
+
+/* ========================= */
+/* PROFILE */
+/* ========================= */
+
+.profile-header{
+    display:flex;
+    align-items:center;
+    gap:25px;
+    flex-wrap:wrap;
+}
+
+.profile-photo{
+    width:150px;
+    height:150px;
+    border-radius:50%;
+    object-fit:cover;
+    border:5px solid #2563eb;
+}
+
+.profile-header h2{
+    margin-bottom:10px;
+    color:#111827;
+}
+
+.profile-header p{
+    font-size:16px;
+    color:#555;
+}
+
+/* ========================= */
+/* FORM */
+/* ========================= */
+
+.form-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+    gap:15px;
+}
+
+input,
+textarea{
+    width:100%;
+    padding:12px;
+    border:1px solid #d1d5db;
+    border-radius:8px;
+    font-size:15px;
+}
+
+textarea{
+    min-height:100px;
+    resize:vertical;
+}
+
+input:focus,
+textarea:focus{
+    outline:none;
+    border-color:#2563eb;
+}
+
+/* ========================= */
+/* BUTTONS */
+/* ========================= */
+
+button{
+    background:#2563eb;
+    color:white;
+    border:none;
+    padding:12px 20px;
+    border-radius:8px;
+    cursor:pointer;
+    transition:0.3s;
+    margin-top:15px;
+}
+
+button:hover{
+    background:#1d4ed8;
+}
+
+#logoutBtn{
+    background:#ef4444;
+}
+
+#logoutBtn:hover{
+    background:#dc2626;
+}
+
+/* ========================= */
+/* STATS */
+/* ========================= */
+
+.stats-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+    gap:20px;
+}
+
+.stat-card{
+    background:#eff6ff;
+    border-left:5px solid #2563eb;
+    border-radius:10px;
+    padding:20px;
+    text-align:center;
+}
+
+.stat-card h3{
+    color:#374151;
+    margin-bottom:10px;
+}
+
+.stat-card p{
+    font-size:24px;
+    font-weight:bold;
+    color:#2563eb;
+}
+
+/* ========================= */
+/* CHECKBOX */
+/* ========================= */
+
+label{
+    font-size:16px;
+    color:#374151;
+}
+
+input[type="checkbox"]{
+    width:auto;
+    margin-right:8px;
+}
+
+/* ========================= */
+/* FILE INPUT */
+/* ========================= */
+
+input[type="file"]{
+    border:none;
+    padding:10px 0;
+}
+
+/* ========================= */
+/* HR */
+/* ========================= */
+
+hr{
+    margin:20px 0;
+    border:none;
+    border-top:1px solid #e5e7eb;
+}
+
+/* ========================= */
+/* HEALTH MONITOR COLORS */
+/* ========================= */
+
+#heartRate{
+    color:#ef4444;
+}
+
+#bloodPressure{
+    color:#10b981;
+}
+
+#oxygen{
+    color:#0ea5e9;
+}
+
+#temperature{
+    color:#f59e0b;
+}
+
+/* ========================= */
+/* RESPONSIVE */
+/* ========================= */
+
+@media(max-width:768px){
+
+    .profile-header{
+        flex-direction:column;
+        text-align:center;
+    }
+
+    .profile-photo{
+        width:120px;
+        height:120px;
+    }
+
+    .stats-grid{
+        grid-template-columns:1fr;
+    }
+
+    .form-grid{
+        grid-template-columns:1fr;
+    }
+}
+
+/* ========================= */
+/* SMOOTH ANIMATION */
+/* ========================= */
+
+.card{
+    animation:fadeIn 0.5s ease;
+}
+
+@keyframes fadeIn{
+
+    from{
+        opacity:0;
+        transform:translateY(20px);
+    }
+
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+</style>
+
+</head>
+<body>
+
+<div class="container">
+
+    <h1>⚙️ Patient Settings & Profile</h1>
+
+    <!-- ========================= -->
+    <!-- PROFILE SECTION -->
+    <!-- ========================= -->
+
+    <div class="card">
+
+        <div class="profile-header">
+
+            <img
+                id="profilePreview"
+                src="https://via.placeholder.com/150"
+                alt="Profile Photo"
+                class="profile-photo">
+
+            <div>
+
+                <h2 id="displayName">
+                    Srithan Katakam
+                </h2>
+
+                <p>
+                    Patient ID:
+                    <strong id="patientId">
+                        PT2026001
+                    </strong>
+                </p>
+
+                <input
+                    type="file"
+                    id="profilePhoto">
+
+            </div>
+
+        </div>
+
+    </div>
+
+    
+
+    <!-- ========================= -->
+    <!-- HEALTH MONITOR -->
+    <!-- ========================= -->
+
+    <div class="card">
+
+        <h2>❤️ Health Monitor</h2>
+
+        <div class="stats-grid">
+
+            <div class="stat-card">
+                <h3>Heart Rate</h3>
+                <p id="heartRate">78 BPM</p>
+            </div>
+
+            <div class="stat-card">
+                <h3>Blood Pressure</h3>
+                <p id="bloodPressure">
+                    120 / 80
+                </p>
+            </div>
+
+            <div class="stat-card">
+                <h3>Oxygen Level</h3>
+                <p id="oxygen">
+                    98%
+                </p>
+            </div>
+
+            <div class="stat-card">
+                <h3>Temperature</h3>
+                <p id="temperature">
+                    98.6°F
+                </p>
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- ========================= -->
+    <!-- APPOINTMENT STATS -->
+    <!-- ========================= -->
+
+    <div class="card">
+
+        <h2>📅 Appointment Summary</h2>
+
+        <div class="stats-grid">
+
+            <div class="stat-card">
+                <h3>Total</h3>
+                <p id="totalAppointments">15</p>
+            </div>
+
+            <div class="stat-card">
+                <h3>Upcoming</h3>
+                <p id="upcomingAppointments">2</p>
+            </div>
+
+            <div class="stat-card">
+                <h3>Completed</h3>
+                <p id="completedAppointments">13</p>
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- ========================= -->
+    <!-- PRESCRIPTION STATS -->
+    <!-- ========================= -->
+
+    <div class="card">
+
+        <h2>💊 Prescription Summary</h2>
+
+        <div class="stats-grid">
+
+            <div class="stat-card">
+                <h3>Active</h3>
+                <p id="activePrescriptions">4</p>
+            </div>
+
+            <div class="stat-card">
+                <h3>Past</h3>
+                <p id="pastPrescriptions">18</p>
+            </div>
+
+            <div class="stat-card">
+                <h3>Last Updated</h3>
+                <p id="lastPrescription">
+                    03-Jun-2026
+                </p>
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- ========================= -->
+    <!-- EMERGENCY CONTACT -->
+    <!-- ========================= -->
+
+    <div class="card">
+
+        <h2>🚨 Emergency Contact</h2>
+
+        <input
+            type="text"
+            id="emergencyName"
+            placeholder="Contact Name">
+
+        <input
+            type="text"
+            id="emergencyPhone"
+            placeholder="Phone Number">
+
+    </div>
+
+    <!-- ========================= -->
+    <!-- MEDICAL INFO -->
+    <!-- ========================= -->
+
+    <div class="card">
+
+        <h2>🏥 Medical Information</h2>
+
+        <textarea
+            id="allergies"
+            placeholder="Allergies" required>
+        </textarea>
+
+
+    </div>
+
+    <!-- ========================= -->
+    <!-- NOTIFICATIONS -->
+    <!-- ========================= -->
+
+    <div class="card">
+
+        <h2>🔔 Notification Settings</h2>
+
+        <label>
+            <input type="checkbox" id="medicineReminder">
+            Medicine Reminders
+        </label>
+
+        <br><br>
+
+        <label>
+            <input type="checkbox" id="appointmentReminder">
+            Appointment Reminders
+        </label>
+
+        <br><br>
+
+        <label>
+            <input type="checkbox" id="healthAlerts">
+            Health Alerts
+        </label>
+
+    </div>
+
+    <!-- ========================= -->
+    <!-- SECURITY -->
+    <!-- ========================= -->
+
+    <div class="card">
+
+        <h2>🔒 Security</h2>
+
+        <input
+            type="password"
+            id="newPassword"
+            placeholder="New Password" required>
+
+        <button id="changePasswordBtn">
+            Change Password
+        </button>
+
+        <hr>
+
+        <button id="logoutBtn">
+            Logout
+        </button>
+
+    </div>
+
+</div>
+
+<!-- Link JavaScript Here -->
+<script src="settings.js">
+    // ==========================
+// LOAD SAVED DATA
+// ==========================
+
+window.onload = function () {
+
+    loadProfile();
+
+    startHealthMonitor();
+};
+
+// ==========================
+// PROFILE PHOTO UPLOAD
+// ==========================
+
+document.getElementById("profilePhoto")
+.addEventListener("change", function () {
+
+    const file = this.files[0];
+
+    if (!file) return;
+
+    const reader = new FileReader();
+
+    reader.onload = function (e) {
+
+        document.getElementById("profilePreview")
+            .src = e.target.result;
+
+        localStorage.setItem(
+            "profilePhoto",
+            e.target.result
+        );
+    };
+
+    reader.readAsDataURL(file);
+});
+
+// ==========================
+// SAVE PROFILE
+// ==========================
+
+document.getElementById("saveProfileBtn")
+.addEventListener("click", saveProfile);
+
+function saveProfile() {
+
+    const profile = {
+
+        name:
+            document.getElementById("name").value,
+
+        email:
+            document.getElementById("email").value,
+
+        phone:
+            document.getElementById("phone").value,
+
+        age:
+            document.getElementById("age").value,
+
+        bloodGroup:
+            document.getElementById("bloodGroup").value,
+
+        gender:
+            document.getElementById("gender").value,
+
+        height:
+            document.getElementById("height").value,
+
+        weight:
+            document.getElementById("weight").value,
+
+        address:
+            document.getElementById("address").value,
+
+        emergencyName:
+            document.getElementById("emergencyName").value,
+
+        emergencyPhone:
+            document.getElementById("emergencyPhone").value,
+
+        allergies:
+            document.getElementById("allergies").value,
+
+        diseases:
+            document.getElementById("diseases").value,
+
+        medications:
+            document.getElementById("medications").value,
+
+        medicineReminder:
+            document.getElementById("medicineReminder").checked,
+
+        appointmentReminder:
+            document.getElementById("appointmentReminder").checked,
+
+        healthAlerts:
+            document.getElementById("healthAlerts").checked
+    };
+
+    localStorage.setItem(
+        "patientProfile",
+        JSON.stringify(profile)
+    );
+
+    document.getElementById("displayName")
+        .innerText = profile.name;
+
+    alert("Profile Saved Successfully!");
+}
+
+// ==========================
+// LOAD PROFILE
+// ==========================
+
+function loadProfile() {
+
+    const profile =
+        JSON.parse(
+            localStorage.getItem("patientProfile")
+        );
+
+    if (profile) {
+
+        document.getElementById("name").value =
+            profile.name || "";
+
+        document.getElementById("email").value =
+            profile.email || "";
+
+        document.getElementById("phone").value =
+            profile.phone || "";
+
+        document.getElementById("age").value =
+            profile.age || "";
+
+        document.getElementById("bloodGroup").value =
+            profile.bloodGroup || "";
+
+        document.getElementById("gender").value =
+            profile.gender || "";
+
+        document.getElementById("height").value =
+            profile.height || "";
+
+        document.getElementById("weight").value =
+            profile.weight || "";
+
+        document.getElementById("address").value =
+            profile.address || "";
+
+        document.getElementById("emergencyName").value =
+            profile.emergencyName || "";
+
+        document.getElementById("emergencyPhone").value =
+            profile.emergencyPhone || "";
+
+        document.getElementById("allergies").value =
+            profile.allergies || "";
+
+        document.getElementById("diseases").value =
+            profile.diseases || "";
+
+        document.getElementById("medications").value =
+            profile.medications || "";
+
+        document.getElementById("medicineReminder").checked =
+            profile.medicineReminder || false;
+
+        document.getElementById("appointmentReminder").checked =
+            profile.appointmentReminder || false;
+
+        document.getElementById("healthAlerts").checked =
+            profile.healthAlerts || false;
+
+        document.getElementById("displayName").innerText =
+            profile.name || "Patient";
+    }
+
+    const photo =
+        localStorage.getItem("profilePhoto");
+
+    if (photo) {
+
+        document.getElementById("profilePreview")
+            .src = photo;
+    }
+
+    generatePatientID();
+}
+
+// ==========================
+// PATIENT ID
+// ==========================
+
+function generatePatientID() {
+
+    let patientId =
+        localStorage.getItem("patientId");
+
+    if (!patientId) {
+
+        patientId =
+            "PT" +
+            Math.floor(
+                100000 + Math.random() * 900000
+            );
+
+        localStorage.setItem(
+            "patientId",
+            patientId
+        );
+    }
+
+    document.getElementById("patientId")
+        .innerText = patientId;
+}
+
+// ==========================
+// LIVE HEALTH MONITOR
+// ==========================
+
+function startHealthMonitor() {
+
+    setInterval(() => {
+
+        let heartRate =
+            Math.floor(Math.random() * 20) + 70;
+
+        let oxygen =
+            Math.floor(Math.random() * 3) + 97;
+
+        let temp =
+            (97 + Math.random() * 2).toFixed(1);
+
+        let sys =
+            Math.floor(Math.random() * 20) + 110;
+
+        let dia =
+            Math.floor(Math.random() * 10) + 70;
+
+        document.getElementById("heartRate")
+            .innerText = heartRate + " BPM";
+
+        document.getElementById("oxygen")
+            .innerText = oxygen + "%";
+
+        document.getElementById("temperature")
+            .innerText = temp + "°F";
+
+        document.getElementById("bloodPressure")
+            .innerText = sys + "/" + dia;
+
+    }, 3000);
+}
+
+// ==========================
+// PASSWORD CHANGE
+// ==========================
+
+document.getElementById("changePasswordBtn")
+.addEventListener("click", function () {
+
+    const password =
+        document.getElementById("newPassword")
+        .value;
+
+    if (password.length < 6) {
+
+        alert(
+            "Password must be at least 6 characters"
+        );
+
+        return;
+    }
+
+    localStorage.setItem(
+        "patientPassword",
+        password
+    );
+
+    alert(
+        "Password Updated Successfully!"
+    );
+
+    document.getElementById("newPassword")
+        .value = "";
+});
+
+// ==========================
+// LOGOUT
+// ==========================
+
+document.getElementById("logoutBtn")
+.addEventListener("click", function () {
+
+    const confirmLogout =
+        confirm("Are you sure you want to logout?");
+
+    if (confirmLogout) {
+
+        alert("Logged Out Successfully");
+
+        window.location.href = "index.html";
+    }
+});
+
+
+//Sync profile
+
+
+async function saveProfile() {
+
+    const profile = {
+
+        patient_id:
+        localStorage.getItem(
+            "patientId"
+        ),
+
+        full_name:
+        document.getElementById(
+            "name"
+        ).value,
+
+        email:
+        document.getElementById(
+            "email"
+        ).value,
+
+        phone:
+        document.getElementById(
+            "phone"
+        ).value,
+
+        age:
+        document.getElementById(
+            "age"
+        ).value,
+
+        gender:
+        document.getElementById(
+            "gender"
+        ).value,
+
+        blood_group:
+        document.getElementById(
+            "bloodGroup"
+        ).value,
+
+        height:
+        document.getElementById(
+            "height"
+        ).value,
+
+        weight:
+        document.getElementById(
+            "weight"
+        ).value,
+
+        address:
+        document.getElementById(
+            "address"
+        ).value,
+
+        emergency_name:
+        document.getElementById(
+            "emergencyName"
+        ).value,
+
+        emergency_phone:
+        document.getElementById(
+            "emergencyPhone"
+        ).value,
+
+        allergies:
+        document.getElementById(
+            "allergies"
+        ).value,
+
+        diseases:
+        document.getElementById(
+            "diseases"
+        ).value,
+
+        medications:
+        document.getElementById(
+            "medications"
+        ).value
+    };
+
+    const response =
+    await fetch(
+    "http://localhost:3000/saveProfile",
+    {
+        method:"POST",
+        headers:{
+            "Content-Type":
+            "application/json"
+        },
+        body:
+        JSON.stringify(profile)
+    });
+
+    const result =
+    await response.json();
+
+    if(result.success){
+
+        alert(
+            "Profile Saved Successfully"
+        );
+    }
+}
+
+
+
+// ==========================
+// LOAD DATA AUTOMATICALLY
+// ==========================
+
+window.onload = loadProfile;
+
+async function loadProfile(){
+
+    const patientId =
+    localStorage.getItem(
+        "patientId"
+    );
+
+    const response =
+    await fetch(
+    `http://localhost:3000/profile/${patientId}`
+    );
+
+    const data =
+    await response.json();
+
+    document.getElementById("name").value =
+    data.full_name || "";
+
+    document.getElementById("email").value =
+    data.email || "";
+
+    document.getElementById("phone").value =
+    data.phone || "";
+
+    document.getElementById("age").value =
+    data.age || "";
+
+    document.getElementById("gender").value =
+    data.gender || "";
+
+    document.getElementById("bloodGroup").value =
+    data.blood_group || "";
+
+    document.getElementById("height").value =
+    data.height || "";
+
+    document.getElementById("weight").value =
+    data.weight || "";
+
+    document.getElementById("address").value =
+    data.address || "";
+
+    document.getElementById("emergencyName").value =
+    data.emergency_name || "";
+
+    document.getElementById("emergencyPhone").value =
+    data.emergency_phone || "";
+
+    document.getElementById("allergies").value =
+    data.allergies || "";
+
+    document.getElementById("diseases").value =
+    data.diseases || "";
+
+    document.getElementById("medications").value =
+    data.medications || "";
+}
+// ==========================
+// APPOINTMENT STATS
+// ==========================
+
+if (!localStorage.getItem("totalAppointments")) {
+
+    localStorage.setItem(
+        "totalAppointments",
+        15
+    );
+
+    localStorage.setItem(
+        "upcomingAppointments",
+        2
+    );
+
+    localStorage.setItem(
+        "completedAppointments",
+        13
+    );
+}
+
+document.getElementById("totalAppointments")
+.innerText =
+localStorage.getItem("totalAppointments");
+
+document.getElementById("upcomingAppointments")
+.innerText =
+localStorage.getItem("upcomingAppointments");
+
+document.getElementById("completedAppointments")
+.innerText =
+localStorage.getItem("completedAppointments");
+
+// ==========================
+// PRESCRIPTION STATS
+// ==========================
+
+if (!localStorage.getItem("activePrescriptions")) {
+
+    localStorage.setItem(
+        "activePrescriptions",
+        4
+    );
+
+    localStorage.setItem(
+        "pastPrescriptions",
+        18
+    );
+}
+
+document.getElementById("activePrescriptions")
+.innerText =
+localStorage.getItem("activePrescriptions");
+
+document.getElementById("pastPrescriptions")
+.innerText =
+localStorage.getItem("pastPrescriptions");
+
+// ==========================
+// AUTO SAVE EVERY 30 SEC
+// ==========================
+
+setInterval(() => {
+
+    if (
+        document.getElementById("name").value
+    ) {
+
+        saveProfile();
+    }
+
+}, 30000);
+</script>
+
+</body>
+</html>

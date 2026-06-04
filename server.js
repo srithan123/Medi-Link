@@ -191,6 +191,123 @@ app.post("/login", (req, res) => {
 });
 
 // ======================
+// patient details
+// ======================
+app.post("/saveProfile", (req, res) => {
+
+    const {
+
+        patient_id,
+        full_name,
+        email,
+        phone,
+        age,
+        gender,
+        blood_group,
+        height,
+        weight,
+        address,
+        emergency_name,
+        emergency_phone,
+        allergies,
+        diseases,
+        medications
+
+    } = req.body;
+
+    db.run(
+        `
+        UPDATE patients
+        SET
+
+        full_name=?,
+        email=?,
+        phone=?,
+        age=?,
+        gender=?,
+        blood_group=?,
+        height=?,
+        weight=?,
+        address=?,
+        emergency_name=?,
+        emergency_phone=?,
+        allergies=?,
+        diseases=?,
+        medications=?
+
+        WHERE patient_id=?
+        `,
+        [
+
+            full_name,
+            email,
+            phone,
+            age,
+            gender,
+            blood_group,
+            height,
+            weight,
+            address,
+            emergency_name,
+            emergency_phone,
+            allergies,
+            diseases,
+            medications,
+
+            patient_id
+
+        ],
+
+        function(err) {
+
+            if(err){
+
+                console.log(err);
+
+                return res.json({
+                    success:false
+                });
+            }
+
+            res.json({
+                success:true
+            });
+        }
+    );
+
+});
+
+// ======================
+// Load Profile API
+// ======================
+app.get("/profile/:id", (req,res)=>{
+
+    const patientId =
+    req.params.id;
+
+    db.get(
+        `
+        SELECT *
+        FROM patients
+        WHERE patient_id=?
+        `,
+        [patientId],
+
+        (err,row)=>{
+
+            if(err){
+
+                return res.json({
+                    success:false
+                });
+            }
+
+            res.json(row);
+        }
+    );
+
+});
+// ======================
 // GET ALL USERS (Optional)
 // ======================
 app.get("/users", (req, res) => {
