@@ -798,48 +798,58 @@
 
     try {
 
-        const response = await fetch("/login", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                email,
-                password
-            })
-        });
+    const response = await fetch("/login", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            email,
+            password
+        })
+    });
 
-        const result = await response.json();
+    const result = await response.json();
 
-        if (result.success) {
+    if (response.ok && result.success) {
 
-            localStorage.setItem(
-                "healthcareUser",
-                JSON.stringify(result.user)
-            );
+        localStorage.setItem(
+            "healthcareUser",
+            JSON.stringify(result.user)
+        );
 
-            currentUser = result.user;
+        currentUser = result.user;
 
-            // Close Login Popup
+        // Close Login Popup
+        if (loginModal) {
             loginModal.style.display = "none";
-
-            // Clear Form
-            loginForm.reset();
-
-            // Show Dashboard
-            showDashboard();
-
-        } else {
-
-            alert(result.message);
         }
 
-    } catch (error) {
+        // Clear Form
+        if (loginForm) {
+            loginForm.reset();
+        }
 
-        console.error("Login Error:", error);
+        // Show Dashboard
+        if (typeof showDashboard === "function") {
+            showDashboard();
+        }
 
-        alert("Invalid Credentials..");
+        console.log("Login Successful");
+
+    } else {
+
+        alert(result.message || "Invalid Credentials");
+
     }
+
+} catch (error) {
+
+    console.error("Login Error:", error);
+
+    alert("Server not running or network error.");
+
+}
 });
 
 
